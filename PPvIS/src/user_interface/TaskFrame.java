@@ -18,6 +18,7 @@ public class TaskFrame extends JFrame {
 	 private JCheckBox p4Check1, p4Check2, p4Check3;
 	 private JTable p5Table;
 	 private Vector<String> p1Combo;
+	 private JMenuBar menuBar;
 	 
 	    public TaskFrame() {
 	        setTitle("TaskFrame");
@@ -34,8 +35,7 @@ public class TaskFrame extends JFrame {
 	        
 	        setResizable(false);
 	        setVisible(true); 
-	        //doLayout();
-	        getContentPane().setLayout(new FlowLayout()); //что это??
+	        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); 
 	        //pack();
 	    }
 
@@ -43,6 +43,14 @@ public class TaskFrame extends JFrame {
 	
 	    	JPanel container = new JPanel();
 	    	container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+	    	
+	    	menuBar = new JMenuBar();
+	    	JMenu dTask = new JMenu("Доп. задание");
+	    	JMenuItem start = new JMenuItem("Старт");
+	    	JMenuItem stop = new JMenuItem("Стоп");
+	    	dTask.add(start);
+	    	dTask.add(stop);
+	    	menuBar.add(dTask);
 
 	    	firstOptPanel = new JPanel();
 	    	firstOptPanel.setPreferredSize(new Dimension (350, 130));
@@ -72,8 +80,11 @@ public class TaskFrame extends JFrame {
 	    	container.add(fifthOptPanel);
 	    	fifthOptPanel.setBorder(BorderFactory.createTitledBorder("№5"));
 	    	
+	    	add(menuBar);
 	    	add(container);
 	    }
+	    
+////////////////////////////////////////////
 	    
 	    private void doFirstPanel() {
 	    	p1Button = new JButton();
@@ -171,6 +182,8 @@ public class TaskFrame extends JFrame {
 	    	fifthOptPanel.add(p5ThirdButton);
 	    	fifthOptPanel.add(p5Table);
 	    }
+	    
+///////////////////////////////////////////////////////////
 
 	    private void firstPanelAction() {
 	    	
@@ -246,7 +259,7 @@ public class TaskFrame extends JFrame {
 							}
 						}
 						if(rButton == radioButtons.size())
-							JOptionPane.showMessageDialog(thirdOptPanel, "Увы, такого варианта здесь нет.", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(thirdOptPanel, "Такого варианта здесь нет.", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							JOptionPane.showMessageDialog(thirdOptPanel, "Думаю, вы забыли ввести текст.", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
 						}
