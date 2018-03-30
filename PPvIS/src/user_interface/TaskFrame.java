@@ -1,9 +1,13 @@
 package user_interface;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -18,7 +22,11 @@ public class TaskFrame extends JFrame {
 	 private JCheckBox p4Check1, p4Check2, p4Check3;
 	 private JTable p5Table;
 	 private Vector<String> p1Combo;
+	 private List<JComponent> indTask;
 	 private JMenuBar menuBar;
+	 private JMenuItem start, stop;
+	 private boolean uiLoop;
+	 
 	 
 	    public TaskFrame() {
 	        setTitle("TaskFrame");
@@ -46,22 +54,27 @@ public class TaskFrame extends JFrame {
 	    	
 	    	menuBar = new JMenuBar();
 	    	JMenu dTask = new JMenu("Доп. задание");
-	    	JMenuItem start = new JMenuItem("Старт");
-	    	JMenuItem stop = new JMenuItem("Стоп");
+	    	start = new JMenuItem("Старт");
+	    	stop = new JMenuItem("Стоп");
 	    	dTask.add(start);
 	    	dTask.add(stop);
 	    	menuBar.add(dTask);
 
 	    	firstOptPanel = new JPanel();
 	    	firstOptPanel.setPreferredSize(new Dimension (350, 130));
+	    	firstOptPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 	    	secondOptPanel = new JPanel();
 	    	secondOptPanel.setPreferredSize(new Dimension (350, 130));
+	    	secondOptPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 	    	thirdOptPanel = new JPanel();
 	    	thirdOptPanel.setPreferredSize(new Dimension (350, 130));
+	    	thirdOptPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 	    	fourthOptPanel = new JPanel();
 	    	fourthOptPanel.setPreferredSize(new Dimension (350, 130));
+	    	fourthOptPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 	    	fifthOptPanel = new JPanel();
 	    	fifthOptPanel.setPreferredSize(new Dimension (350, 130));
+	    	fifthOptPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 	    	
 	    	doFirstPanel();
 	    	doSecondPanel();
@@ -79,6 +92,8 @@ public class TaskFrame extends JFrame {
 	    	fourthOptPanel.setBorder(BorderFactory.createTitledBorder("№4"));
 	    	container.add(fifthOptPanel);
 	    	fifthOptPanel.setBorder(BorderFactory.createTitledBorder("№5"));
+	    	
+	    	addEverythingToArray();
 	    	
 	    	add(menuBar);
 	    	add(container);
@@ -120,7 +135,7 @@ public class TaskFrame extends JFrame {
 	    private void doThirdPanel() {
 	    	p3Button = new JButton();
 	    	p3Button.setText("И здесь кнопка");
-	    	p3Button.setPreferredSize(new Dimension(300, 30));
+	    	p3Button.setPreferredSize(new Dimension(200, 30));
 	    	p3RadioButt1 = new JRadioButton();
 	    	p3RadioButt1.setText("first");
 	    	p3RadioButt2 = new JRadioButton();
@@ -144,7 +159,7 @@ public class TaskFrame extends JFrame {
 	    private void doFourthPanel() {
 	    	p4Button = new JButton();
 	    	p4Button.setText("Ещё одна кнопка");
-	    	p4Button.setPreferredSize(new Dimension(300, 30));
+	    	p4Button.setPreferredSize(new Dimension(350, 30));
 	    	p4Check1 = new JCheckBox();
 	    	p4Check1.setText("erste");
 	    	p4Check2 = new JCheckBox();
@@ -238,7 +253,7 @@ public class TaskFrame extends JFrame {
 	    }
 	    
 	    private void thirdPanelAction() {	
-	    	Vector<JRadioButton> radioButtons = new Vector<JRadioButton>();
+	    	final List<JRadioButton> radioButtons = new ArrayList<JRadioButton>();
 	    	radioButtons.add(p3RadioButt1);
 	    	radioButtons.add(p3RadioButt2);
 	    	radioButtons.add(p3RadioButt3);
@@ -269,7 +284,7 @@ public class TaskFrame extends JFrame {
 	    }
 	    
 	    private void fourthPanelAction() {
-	    	Vector<JCheckBox> checkBoxes = new Vector<JCheckBox>();
+	    	final List<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
 	    	checkBoxes.add(p4Check1);
 	    	checkBoxes.add(p4Check2);
 	    	checkBoxes.add(p4Check3);
@@ -352,6 +367,100 @@ public class TaskFrame extends JFrame {
 				}
 	    		
 	    	});
+	    	
+	    	start.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					uiLoop = true;
+					Thread goRound = new Thread(new Runnable()
+					{
+						public void run() 
+						{
+							while(uiLoop)
+							{
+								try{
+									Thread.sleep(1000);		
+								} catch(InterruptedException e){}
+								
+								letItGo();
+							}
+						}
+					});
+					goRound.start();
+				}
+	    		
+	    	});
+	    	
+	    	stop.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					uiLoop = false;
+				}
+	    		
+	    	});
+	    }
+	    
+	    private void addEverythingToArray() {
+	    	indTask = new ArrayList <JComponent>();
+	    	indTask.add(p1TextField);
+	    	indTask.add(p1ComboBox);
+	    	indTask.add(p1Button);
+	    	indTask.add(p2TextField);
+	    	indTask.add(p2FirstButton);
+	    	indTask.add(p2SecondButton);
+	    	indTask.add(p3TextField);
+	    	indTask.add(p3Button);
+	    	indTask.add(p3RadioButt1);
+	    	indTask.add(p3RadioButt2);
+	    	indTask.add(p3RadioButt3);
+	    	indTask.add(p4TextField);
+	    	indTask.add(p4Button);
+	    	indTask.add(p4Check1);
+	    	indTask.add(p4Check2);
+	    	indTask.add(p4Check3);
+	    	indTask.add(p5TextField);
+	    	indTask.add(p5FirstButton);
+	    	indTask.add(p5SecondButton);
+	    	indTask.add(p5ThirdButton);
+	    	indTask.add(p5Table);
+	    	
+	    }
+	    
+	    private void letItGo() {
+	    	
+	    	Container temp = indTask.get(indTask.size() - 1).getParent();
+	    	temp.remove(indTask.get(indTask.size() - 1));
+	    	indTask.get(0).getParent().add(indTask.get(indTask.size() - 1));
+			
+	    	for(int el = 0; el < indTask.size() - 1; el++) {
+	    		Container tmp = indTask.get(el + 1).getParent();
+	    		indTask.get(el).getParent().remove(indTask.get(el));
+	    		tmp.add(indTask.get(el));
+	    	}
+	    	
+	    	arrayShift();
+	    	
+	    	repaint();
+	    	
+	    }
+	    
+	    private void arrayShift() {
+	    	
+	    	JComponent temp = indTask.get(indTask.size() - 1);
+	    	
+	    	/*for(int el = indTask.size() - 1; el > 0; el--) {
+	    		indTask.set(el, indTask.get(el - 1));
+	    	}
+	    	
+	    	indTask.set(0, temp);*/
+	    	
+	    	indTask.remove(indTask.get(indTask.size() - 1));
+	    	indTask.add(0, temp);
+	    	
 	    }
 }
 
