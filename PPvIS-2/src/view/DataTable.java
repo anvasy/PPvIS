@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -11,9 +12,10 @@ import model.Student;
 
 public class DataTable extends JTable {
 	private String[] columnNames = { "ФИО", "Дата рождения", "Дата поступления", "Дата окончания" };
+	private DefaultTableModel dtm;
 	
 	public DataTable(ArrayList<Student> res) {
-		DefaultTableModel dtm = new DefaultTableModel();
+		dtm = new DefaultTableModel();
 		for (int el = 0; el < columnNames.length; el++) {
             dtm.addColumn(columnNames[el]);
         }
@@ -25,7 +27,8 @@ public class DataTable extends JTable {
 				v.add("");
 			dtm.addRow(v);
 		}
-        for(int el = 0, end = res.size(); el < res.size(); el++, end--) {
+		
+        for(int el = 0; el < res.size(); el++) {
             Vector v = new Vector();
             v = res.get(el).returnVec();
             for(int emV = 0; emV < 4; emV++)
@@ -44,4 +47,27 @@ public class DataTable extends JTable {
         getColumnModel().getColumn(2).setPreferredWidth(105);
         getColumnModel().getColumn(3).setPreferredWidth(105);      
 	}
+	
+	public void addRows(Vector v) {
+		dtm.addRow(v);
+	}
+	
+	public void removeData() {
+		for (int i = 0; i < 15; i++)
+		      for(int j = 0; j < 4; j++) {
+		          dtm.setValueAt("", i, j);
+		      }
+		
+		/*dtm.getDataVector().removeAllElements();
+		dtm.fireTableDataChanged(); */
+	
+		/*for(int el = 0; el < 15; el++)
+		{
+			Vector v = new Vector();
+			for(int emV = 0; emV < 4; emV++)
+				v.add("");
+			dtm.addRow(v);
+		}*/
+	}
+	
 }

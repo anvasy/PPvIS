@@ -24,7 +24,6 @@ public class MainFrame extends JFrame {
 	private Controller ctr;
 	private DataTable dataStud;
 	private int counter = 1;
-	private double pagesNum;
 	
 	public MainFrame(Controller c) {
 		ctr = c;
@@ -52,7 +51,10 @@ public class MainFrame extends JFrame {
 		prevButton = new JButton("Назад");
 		nextButton = new JButton("Вперёд");
 		updateButton = new JButton("Обновить");
-		pagesCount = new JLabel("Страница " + counter + " из " + (int) Math.ceil(ctr.getDataSize()/5.0));
+		if(ctr.getDataSize() == 0)
+			pagesCount = new JLabel("Страница 1 из 1");
+		else
+			pagesCount = new JLabel("Страница " + counter + " из " + (int) Math.ceil(ctr.getDataSize()/5.0));
 		//////
 		add(pages);
 		add(numRows);
@@ -222,12 +224,23 @@ public class MainFrame extends JFrame {
 				// TODO Auto-generated method stub
 				int nRows = Integer.valueOf(numRows.getText());
 				if(nRows >=2 && nRows <= 14) {
-					dataStud.resize(new Dimension(520, 25 * nRows));
+					if(ctr.getDataSize() <= nRows)
+					{
+						counter = 1;
+						pagesCount.setText("Страница 1 из 1");
+						dataStud.resize(new Dimension(520, 25 * nRows));
+					} else {
+						dataStud.resize(new Dimension(520, 25 * nRows));
+						counter = 1;
+						ctr.updatePage(dataStud, 1, Integer.valueOf(numRows.getText()));
+						pagesCount.setText("Страница " + counter + " из " + 
+								(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
+					}
 				}
 				else
 					numRows.setText("5");
-				
 			}
+			
 		});
 		
 		nextButton.addActionListener(new ActionListener() {
@@ -240,15 +253,13 @@ public class MainFrame extends JFrame {
 					counter++;
 					pagesCount.setText("Страница " + counter + " из " + 
 									(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
-					
+					dataStud.removeData();
 					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()));
 					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
 				}
-				
 			}
 		});
-		
-	
+				
 		prevButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -259,6 +270,7 @@ public class MainFrame extends JFrame {
 					counter--;
 					pagesCount.setText("Страница " + counter + " из " + 
 									(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
+					dataStud.removeData();
 					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()));	
 					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
 				}

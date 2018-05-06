@@ -98,22 +98,25 @@ public class AddFrame extends JFrame {
 				if(name.getText().isEmpty() || surname.getText().isEmpty() || fatherName.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Calendar cal = Calendar.getInstance();
-					Date date = (Date) birthDate.getModel().getValue();
-					cal.setTime(date);
-					Calendar cal1 = Calendar.getInstance();
-					Date date1 = (Date) startDate.getModel().getValue();
-					cal1.setTime(date1);
-					Calendar cal2 = Calendar.getInstance();
-					Date date2 = (Date) endDate.getModel().getValue();
-					cal2.setTime(date2);
-					Student std = new Student(name.getText(), surname.getText(), fatherName.getText(), cal, 
-							cal1, cal2);
-					ctr.getNewStudent(std);
-					JOptionPane.showMessageDialog(null, "Новая запись добавлена.", " ", JOptionPane.INFORMATION_MESSAGE);
+					try {
+						Calendar cal = Calendar.getInstance();
+						Date date = (Date) birthDate.getModel().getValue();
+						cal.setTime(date);
+						Calendar cal1 = Calendar.getInstance();
+						Date date1 = (Date) startDate.getModel().getValue();
+						cal1.setTime(date1);
+						Calendar cal2 = Calendar.getInstance();
+						Date date2 = (Date) endDate.getModel().getValue();
+						cal2.setTime(date2);
+						Student std = new Student(name.getText(), surname.getText(), fatherName.getText(), cal, 
+								cal1, cal2);
+						ctr.getNewStudent(std);
+						JOptionPane.showMessageDialog(null, "Новая запись добавлена.", " ", JOptionPane.INFORMATION_MESSAGE);
+					} catch(Exception ex) {
+						JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
-    		
     	});
 	}
 }

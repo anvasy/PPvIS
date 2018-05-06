@@ -8,15 +8,22 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.Controller;
+
 public class ResultFrame extends JFrame{
 
 	private JButton okButton, nextButton, prevButton;
 	private ArrayList studentData;
+	private JLabel pagesCount;
+	private DataTable dat;
+	private Controller ctr;
+	private int counter = 1;
 	
-	public ResultFrame(ArrayList res) {
+	public ResultFrame(ArrayList res, Controller c) {
+		ctr = c;
 		studentData = res;
         setTitle("Результаты поиска");
-        setSize(540, 240);
+        setSize(540, 260);
         setLocationRelativeTo(null); 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);    
         
@@ -28,7 +35,9 @@ public class ResultFrame extends JFrame{
     }
 
 	private void initComponents() {
-		DataTable dat = new DataTable(studentData);
+		pagesCount = new JLabel("Страница " + counter + " из " + (int) Math.ceil(studentData.size()/5.0));
+		add(pagesCount);
+		dat = new DataTable(ctr.getData(studentData, counter, 5));
 		dat.setPreferredSize(new Dimension(520, 125));
 		add(dat);
 		nextButton = new JButton("Вперёд");
@@ -54,6 +63,40 @@ public class ResultFrame extends JFrame{
     		
     	});
 		
+		nextButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if(studentData.size() > 5 * counter)
+				{
+					counter++;
+					pagesCount.setText("Страница " + counter + " из " + 
+									(int) Math.ceil(studentData.size()/5.0));
+					//dat.removeData();
+					ctr.updatePage(dat, counter, 5);
+					dat.resize(new Dimension(520, 25 * 5));
+				}
+				
+			}
+		});
 		
+	
+		prevButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if(counter > 1)
+				{
+					counter--;
+					pagesCount.setText("Страница " + counter + " из " + 
+									(int) Math.ceil(ctr.getDataSize()/5.0));
+					ctr.updatePage(dat, counter, 5);	
+					dat.resize(new Dimension(520, 25 * 5));
+				}
+				
+			}
+		});
 	}
 }

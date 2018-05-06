@@ -18,17 +18,30 @@ public class Info {
         calendar.setTime(new Date(118, 03, 04));
 		Student e = new Student("1", "a", "a", calendar, calendar, calendar);
 		studentData.add(e);
+		studentData.add(e);
+		studentData.add(e);
     }
 	
 	public ArrayList<Student> getData() {
 		return studentData;
 	}
 	
-	public ArrayList<Student> getPartOfArrayForThatGodDamnedTable(ArrayList<Student> stud,int counter, int numRows) {
+	public ArrayList<Student> getPartOfArrayForThatGodDamnedTable(ArrayList<Student> stud, int counter, int numRows) {
 
 		if(numRows >= stud.size())
 			return stud;
-		ArrayList<Student> result = new ArrayList<Student>(stud.subList(numRows * (counter - 1), numRows * (counter - 1) + numRows));  //????????????????????????????
+		
+		ArrayList<Student> result = new ArrayList<Student>();
+		int endOfSubList = 0;
+		if(numRows * (counter - 1) + numRows > stud.size())
+			endOfSubList = stud.size();
+		else
+			endOfSubList = numRows * (counter - 1) + numRows;
+		
+		for(int el = numRows * (counter - 1); el < endOfSubList; el++)
+		{
+			result.add(stud.get(el));
+		}
 		return result;
 	}
 
@@ -90,7 +103,6 @@ public class Info {
     				fatherName.equals(studentData.get(el).getFatherName()) && birthDay == studentData.get(el).getBirthDay()) {
     			studentData.remove(el);
     			counter++;
-    			System.out.println("fuck");
     		} else {
     			continue;
     		}
