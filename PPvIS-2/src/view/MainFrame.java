@@ -44,6 +44,7 @@ public class MainFrame extends JFrame {
 		addButtons();
 		dataStud = new DataTable(ctr.getData(counter, 5));
 		dataStud.setPreferredSize(new Dimension(520, 25*5));
+		dataStud.resize(new Dimension(520, 25 * 5));
 		ctr.getMainTable(dataStud);
 		JLabel pages = new JLabel("Количество строк: ");
 		numRows = new JTextField(3);
@@ -178,8 +179,11 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
-				int returnVal = fcSave.showSaveDialog(MainFrame.this);
+				JFileChooser fc = new JFileChooser();
+				if(fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+					System.out.println(fc.getSelectedFile().getName());
+					//ileOutputStream fileStream = new FileOutputStream(fc.getSelectedFile());
+				//System.out.println(fcSave.showSaveDialog(MainFrame.this));
 			}
     		
     	});
@@ -224,21 +228,22 @@ public class MainFrame extends JFrame {
 				// TODO Auto-generated method stub
 				int nRows = Integer.valueOf(numRows.getText());
 				if(nRows >=2 && nRows <= 14) {
-					if(ctr.getDataSize() <= nRows)
-					{
-						counter = 1;
-						pagesCount.setText("Страница 1 из 1");
-						dataStud.resize(new Dimension(520, 25 * nRows));
-					} else {
-						dataStud.resize(new Dimension(520, 25 * nRows));
-						counter = 1;
-						ctr.updatePage(dataStud, 1, Integer.valueOf(numRows.getText()));
-						pagesCount.setText("Страница " + counter + " из " + 
+					dataStud.setPreferredSize(new Dimension(520, 25*nRows));
+					dataStud.resize(new Dimension(520, 25 * nRows));
+					counter = 1;
+					ctr.updatePage(dataStud, 1, Integer.valueOf(numRows.getText()));
+					pagesCount.setText("Страница " + counter + " из " + 
 								(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
-					}
 				}
-				else
+				else {
 					numRows.setText("5");
+					dataStud.setPreferredSize(new Dimension(520, 25*5));
+					dataStud.resize(new Dimension(520, 25 * 5));
+					counter = 1;
+					ctr.updatePage(dataStud, 1, 5);
+					pagesCount.setText("Страница " + counter + " из " + 
+								(int) Math.ceil(ctr.getDataSize()/5));
+				}
 			}
 			
 		});
@@ -255,6 +260,7 @@ public class MainFrame extends JFrame {
 									(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
 					dataStud.removeData();
 					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()));
+					dataStud.setPreferredSize(new Dimension(520, 25*Integer.valueOf(numRows.getText())));
 					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
 				}
 			}
@@ -272,6 +278,7 @@ public class MainFrame extends JFrame {
 									(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
 					dataStud.removeData();
 					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()));	
+					dataStud.setPreferredSize(new Dimension(520, 25*Integer.valueOf(numRows.getText())));
 					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
 				}
 				

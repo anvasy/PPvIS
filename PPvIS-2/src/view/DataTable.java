@@ -33,9 +33,6 @@ public class DataTable extends JTable {
             v = res.get(el).returnVec();
             for(int emV = 0; emV < 4; emV++)
             	dtm.setValueAt(v.get(emV), el, emV);
-          
-           // dtm.insertRow(el, v);
-            //dtm.removeRow(end);
             
         }
         dtm.setColumnIdentifiers(columnNames);
@@ -57,17 +54,6 @@ public class DataTable extends JTable {
 		      for(int j = 0; j < 4; j++) {
 		          dtm.setValueAt("", i, j);
 		      }
-		
-		/*dtm.getDataVector().removeAllElements();
-		dtm.fireTableDataChanged(); */
-	
-		/*for(int el = 0; el < 15; el++)
-		{
-			Vector v = new Vector();
-			for(int emV = 0; emV < 4; emV++)
-				v.add("");
-			dtm.addRow(v);
-		}*/
 	}
 	
 }

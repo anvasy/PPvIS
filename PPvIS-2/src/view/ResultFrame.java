@@ -73,9 +73,10 @@ public class ResultFrame extends JFrame{
 					counter++;
 					pagesCount.setText("Страница " + counter + " из " + 
 									(int) Math.ceil(studentData.size()/5.0));
-					//dat.removeData();
+					dat.removeData();
 					ctr.updatePage(dat, counter, 5);
 					dat.resize(new Dimension(520, 25 * 5));
+					
 				}
 				
 			}
@@ -92,6 +93,7 @@ public class ResultFrame extends JFrame{
 					counter--;
 					pagesCount.setText("Страница " + counter + " из " + 
 									(int) Math.ceil(ctr.getDataSize()/5.0));
+					dat.removeData();
 					ctr.updatePage(dat, counter, 5);	
 					dat.resize(new Dimension(520, 25 * 5));
 				}

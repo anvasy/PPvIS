@@ -38,20 +38,6 @@ public class Controller {
 		return info.getData().size();
 	}
 	
-	/*public ArrayList updatePage(DataTable table, int counter, int numRows) {
-		ArrayList<Student> newData = new ArrayList();
-		newData = info.getPartOfArrayForThatGodDamnedTable(info.getData(), counter, numRows);
-		for(int row = 0; row < newData.size(); row++) {
-			Vector v = new Vector();
-            v = newData.get(row).returnVec();
-			for(int el = 0; el < table.getColumnCount(); el++) {
-				table.setValueAt(v.get(el), row, el);
-			}
-			
-		}
-		
-		return newData;
-	}*/	
 	public void updatePage(DataTable table, int counter, int numRows) {
 		ArrayList<Student> newData = new ArrayList();
 		newData = info.getPartOfArrayForThatGodDamnedTable(info.getData(), counter, numRows);

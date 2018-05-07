@@ -20,6 +20,10 @@ public class Info {
 		studentData.add(e);
 		studentData.add(e);
 		studentData.add(e);
+		studentData.add(e);
+		studentData.add(e);
+		studentData.add(e);
+		studentData.add(e);
     }
 	
 	public ArrayList<Student> getData() {
