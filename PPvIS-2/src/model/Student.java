@@ -55,9 +55,24 @@ public class Student {
 		return birthDate.get(Calendar.YEAR);
 	}
 	
+	public int getStartUniDay() {
+		return startUniDate.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public int getStartUniMonth() {
+		return startUniDate.get(Calendar.MONTH);
+	}
 	
 	public int getStartUniYear() {
 		return startUniDate.get(Calendar.YEAR);
+	}
+	
+	public int getEndUniDay() {
+		return endUniDate.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public int getEndUniMonth() {
+		return endUniDate.get(Calendar.MONTH);
 	}
 	
 	public int getEndUniYear() {
