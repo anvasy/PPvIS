@@ -63,13 +63,13 @@ public class MainFrame extends JFrame {
 	
 	private void addMenu() {
 		menuBar = new JMenuBar();
-		operationsMenu = new JMenu("Опции");
-		fileMenu = new JMenu("Файл");
-		addItem = new JMenuItem("Добавить");
-		searchItem = new JMenuItem("Найти");
-		deleteItem = new JMenuItem("Удалить");
-		saveItem = new JMenuItem("Сохранить");
-		loadItem = new JMenuItem("Открыть");
+		operationsMenu = new JMenu("РћРїС†РёРё");
+		fileMenu = new JMenu("Р¤Р°Р№Р»");
+		addItem = new JMenuItem("Р”РѕР±Р°РІРёС‚СЊ");
+		searchItem = new JMenuItem("РќР°Р№С‚Рё");
+		deleteItem = new JMenuItem("РЈРґР°Р»РёС‚СЊ");
+		saveItem = new JMenuItem("РЎРѕС…СЂР°РЅРёС‚СЊ");
+		loadItem = new JMenuItem("РћС‚РєСЂС‹С‚СЊ");
 		fileMenu.add(loadItem);
 		fileMenu.add(saveItem);
 		operationsMenu.add(addItem);
@@ -81,19 +81,19 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void addButtons() {
-		addButton = new JButton("Добавить");
+		addButton = new JButton("Р”РѕР±Р°РІРёС‚СЊ");
 		addButton.setPreferredSize(new Dimension(100, 30));
 		add(addButton);
-		searchButton = new JButton("Найти");
+		searchButton = new JButton("РќР°Р№С‚Рё");
 		searchButton.setPreferredSize(new Dimension(100, 30));
 		add(searchButton);
-		deleteButton = new JButton("Удалить");
+		deleteButton = new JButton("РЈРґР°Р»РёС‚СЊ");
 		deleteButton.setPreferredSize(new Dimension(100, 30));
 		add(deleteButton);
-		saveButton = new JButton("Сохранить");
+		saveButton = new JButton("РЎРѕС…СЂР°РЅРёС‚СЊ");
 		saveButton.setPreferredSize(new Dimension(100, 30));
 		add(saveButton);
-		loadButton = new JButton("Открыть");
+		loadButton = new JButton("РћС‚РєСЂС‹С‚СЊ");
 		loadButton.setPreferredSize(new Dimension(100, 30));
 		add(loadButton);
 	}
@@ -113,7 +113,7 @@ public class MainFrame extends JFrame {
 						if(file.getName().contains(".xml")){
 							ctr.readFile(file);
 						} else {
-							JOptionPane.showMessageDialog(null, "Неверный формат файла.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ С„Р°Р№Р»Р°.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				} catch (Exception ex) {

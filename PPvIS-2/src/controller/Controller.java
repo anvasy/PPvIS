@@ -103,14 +103,14 @@ public class Controller {
 	
 	public void getData(String name, String surname, String fatherName, int birthDay, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(name, surname, fatherName, birthDay) 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Р‘С‹Р»Рё СѓРґР°Р»РµРЅС‹ " + info.deleteStudents(name, surname, fatherName, birthDay) 
+						+ " Р·Р°РїРёСЃРµР№", "Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(name, surname, fatherName, birthDay).isEmpty()) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "РџРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ.", 
+						"Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				new ResultFrame(info.searchStudents(name, surname, fatherName, birthDay), this);
 			}
@@ -119,14 +119,14 @@ public class Controller {
 	
 	public void getData(int yearStart, int yearEnd, int dayBirth, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(yearStart, yearEnd, dayBirth) 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Р‘С‹Р»Рё СѓРґР°Р»РµРЅС‹ " + info.deleteStudents(yearStart, yearEnd, dayBirth) 
+						+ " Р·Р°РїРёСЃРµР№", "Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(yearStart, yearEnd, dayBirth).isEmpty()) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "РџРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ.", 
+						"Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				new ResultFrame(info.searchStudents(yearStart, yearEnd, dayBirth), this);
 			}
@@ -135,14 +135,14 @@ public class Controller {
 	
 	public void getData(int day, int month, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(day, month) 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Р‘С‹Р»Рё СѓРґР°Р»РµРЅС‹ " + info.deleteStudents(day, month) 
+						+ " Р·Р°РїРёСЃРµР№", "Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(day, month).size() == 0) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "РџРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ.", 
+						"Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				new ResultFrame(info.searchStudents(day, month), this);
 			}
@@ -151,14 +151,14 @@ public class Controller {
 	
 	public void getData(int yearStartEnroll, int yearEndEnroll, int yearStartGrad, int yearEndGrad, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad) + 
-						" записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Р‘С‹Р»Рё СѓРґР°Р»РµРЅС‹ " + info.deleteStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad) + 
+						" Р·Р°РїРёСЃРµР№", "Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad).isEmpty()) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "РџРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ.", 
+						"Р’РЅРёРјР°РЅРёРµ!", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				new ResultFrame(info.searchStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad), this);
 			}

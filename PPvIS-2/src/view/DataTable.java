@@ -11,7 +11,7 @@ import javax.swing.table.TableColumn;
 import model.Student;
 
 public class DataTable extends JTable {
-	private String[] columnNames = { "ФИО", "Дата рождения", "Дата поступления", "Дата окончания" };
+	private String[] columnNames = { "Р¤РРћ", "Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ", "Р”Р°С‚Р° РїРѕСЃС‚СѓРїР»РµРЅРёСЏ", "Р”Р°С‚Р° РѕРєРѕРЅС‡Р°РЅРёСЏ" };
 	private DefaultTableModel dtm;
 	
 	public DataTable(ArrayList<Student> res) {

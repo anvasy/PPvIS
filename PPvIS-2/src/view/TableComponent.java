@@ -43,19 +43,19 @@ public class TableComponent extends JPanel {
 		dataStud.setPreferredSize(new Dimension(520, 25*5));
 		dataStud.resize(new Dimension(520, 25 * 5));
 		
-		JLabel pages = new JLabel("Количество строк: ");
+		JLabel pages = new JLabel("РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂР°РЅРёС†: ");
 		if(data.size() == 0)
-			pagesCount = new JLabel("Страница 1 из 1");
+			pagesCount = new JLabel("РЎС‚СЂР°РЅРёС†Р° 1 РёР· 1");
 		else
-			pagesCount = new JLabel("Страница " + counter + " из " + (int) Math.ceil(data.size()/5.0));
-		itemsNumber = new JLabel("Количество записей: " + data.size());
+			pagesCount = new JLabel("РЎС‚СЂР°РЅРёС†Р° " + counter + " РёР· " + (int) Math.ceil(data.size()/5.0));
+		itemsNumber = new JLabel("РљРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РїРёСЃРµР№: " + data.size());
 		numRows = new JTextField(3);
 		numRows.setText("5");
 		prevButton = new JButton("<");
 		nextButton = new JButton(">");
 		toFirstPage = new JButton("<<");
 		toLastPage = new JButton(">>");
-		updateButton = new JButton("Обновить");
+		updateButton = new JButton("РћР±РЅРѕРІРёС‚СЊ");
 		
 		add(pages);
 		add(numRows);
@@ -84,7 +84,7 @@ public class TableComponent extends JPanel {
 					dataStud.resize(new Dimension(520, 25 * nRows));
 					counter = 1;
 					ctr.updatePage(dataStud, 1, Integer.valueOf(numRows.getText()), data);
-					pagesCount.setText("Страница " + counter + " из " + 
+					pagesCount.setText("РЎС‚СЂР°РЅРёС†Р° " + counter + " РёР· " + 
 								(int) Math.ceil(data.size()/Double.valueOf(numRows.getText())));
 				}
 				else {
@@ -93,7 +93,7 @@ public class TableComponent extends JPanel {
 					dataStud.resize(new Dimension(520, 25 * currentRowNumber));
 					counter = 1;
 					ctr.updatePage(dataStud, 1, currentRowNumber, data);
-					pagesCount.setText("Страница " + counter + " из " + 
+					pagesCount.setText("РЎС‚СЂР°РЅРёС†Р° " + counter + " РёР· " + 
 								(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 				}
 			}
@@ -108,7 +108,7 @@ public class TableComponent extends JPanel {
 				if(ctr.getDataSize(ctr.getData()) > Integer.valueOf(numRows.getText()) * counter)
 				{
 					counter++;
-					pagesCount.setText("Страница " + counter + " из " + 
+					pagesCount.setText("РЎС‚СЂР°РЅРёС†Р° " + counter + " РёР· " + 
 									(int) Math.ceil(data.size()/Double.valueOf(numRows.getText())));
 					dataStud.removeData();
 					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()), data);
@@ -127,7 +127,7 @@ public class TableComponent extends JPanel {
 				if(counter > 1)
 				{
 					counter--;
-					pagesCount.setText("Страница " + counter + " из " + 
+					pagesCount.setText("РЎС‚СЂР°РЅРёС†Р°" + counter + " РёР· " + 
 									(int) Math.ceil(data.size()/Double.valueOf(numRows.getText())));
 					dataStud.removeData();
 					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()), data);	
@@ -149,7 +149,7 @@ public class TableComponent extends JPanel {
 				counter = 1;
 				dataStud.removeData();
 				ctr.updatePage(dataStud, 1, currentRowNumber, data);
-				pagesCount.setText("Страница 1 из " + 
+				pagesCount.setText("РЎС‚СЂР°РЅРёС†Р° 1 РёР· " + 
 							(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 			}
 		});
@@ -162,7 +162,7 @@ public class TableComponent extends JPanel {
 				counter = (int) Math.ceil(data.size()/Double.valueOf(currentRowNumber));
 				dataStud.removeData();
 				ctr.updatePage(dataStud, counter, currentRowNumber, data);
-				pagesCount.setText("Страница " + counter + " из " + 
+				pagesCount.setText("РЎС‚СЂР°РЅРёС†Р° " + counter + " РёР· " + 
 						(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 			}
 		});
@@ -170,8 +170,8 @@ public class TableComponent extends JPanel {
 	
 	
 	public void updateElementsNumber() {
-		itemsNumber.setText("Количество записей: " + data.size());
-		pagesCount.setText("Страница " + counter + " из " + 
+		itemsNumber.setText("РљРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РїРёСЃРµР№: " + data.size());
+		pagesCount.setText("РЎС‚СЂР°РЅРёС†Р° " + counter + " РёР· " + 
 				(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 	}
 	

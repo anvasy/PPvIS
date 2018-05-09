@@ -19,7 +19,7 @@ public class ResultFrame extends JFrame{
 		ctr = c;
 		studentData = res;
 		
-        setTitle("Результаты поиска");
+        setTitle("Р РµР·СѓР»СЊС‚Р°С‚С‹ РїРѕРёСЃРєР°");
         setSize(550, 450);
         setLocationRelativeTo(null); 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);    

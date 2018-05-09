@@ -47,9 +47,9 @@ public class SearchFrame extends JFrame {
 		this.ifDelete = ifDelete;
 		
 		if(ifDelete)
-         setTitle("Удалить");
+         setTitle("РЈРґР°Р»РёС‚СЊ");
 		else
-			setTitle("Найти");
+			setTitle("РќР°Р№С‚Рё");
 		
         setSize(340, 700);
         setLocationRelativeTo(null); 
@@ -80,25 +80,25 @@ public class SearchFrame extends JFrame {
     	fourthOptPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
     	
     	container.add(firstOptPanel);
-    	firstOptPanel.setBorder(BorderFactory.createTitledBorder("№1"));
+    	firstOptPanel.setBorder(BorderFactory.createTitledBorder("пїЅ1"));
     	container.add(secondOptPanel);
-    	secondOptPanel.setBorder(BorderFactory.createTitledBorder("№2"));
+    	secondOptPanel.setBorder(BorderFactory.createTitledBorder("пїЅ2"));
     	container.add(thirdOptPanel);
-    	thirdOptPanel.setBorder(BorderFactory.createTitledBorder("№3"));
+    	thirdOptPanel.setBorder(BorderFactory.createTitledBorder("пїЅ3"));
     	container.add(fourthOptPanel);
-    	fourthOptPanel.setBorder(BorderFactory.createTitledBorder("№4"));
+    	fourthOptPanel.setBorder(BorderFactory.createTitledBorder("пїЅ4"));
     	
-    	JLabel nameL = new JLabel("Имя: ");
-		JLabel surnameL = new JLabel("Фамилия: ");
-		JLabel fatherNameL = new JLabel("Отчество: ");
-		JLabel birthDateL = new JLabel("День рождения: ");
+    	JLabel nameL = new JLabel("РРјСЏ: ");
+		JLabel surnameL = new JLabel("Р¤Р°РјРёР»РёСЏ: ");
+		JLabel fatherNameL = new JLabel("РћС‚С‡РµСЃС‚РІРѕ: ");
+		JLabel birthDateL = new JLabel("Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ: ");
 		name = new JTextField(20);
 		surname = new JTextField(20);
 		fatherName = new JTextField(20);
 		if(ifDelete)
-			search1 = new JButton("Удалить");
+			search1 = new JButton("РЈРґР°Р»РёС‚СЊ");
 		else
-			search1 = new JButton("Найти");
+			search1 = new JButton("РќР°Р№С‚Рё");
 		search1.setPreferredSize(new Dimension(300, 30));
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -117,16 +117,16 @@ public class SearchFrame extends JFrame {
 		firstOptPanel.add(dayBirth0);
 		firstOptPanel.add(search1);
 		
-		JLabel birthYearDateL = new JLabel("Год рождения: ");
+		JLabel birthYearDateL = new JLabel("Р“РѕРґ СЂРѕР¶РґРµРЅРёСЏ: ");
 		yearStart = new JTextField(5);
-		JLabel lineL = new JLabel(" — ");
+		JLabel lineL = new JLabel(" вЂ” ");
 		yearEnd = new JTextField(5);
 		if(ifDelete)
-			search2 = new JButton("Удалить");
+			search2 = new JButton("РЈРґР°Р»РёС‚СЊ");
 		else
-			search2 = new JButton("Найти");;
+			search2 = new JButton("РќР°Р№С‚Рё");;
 		search2.setPreferredSize(new Dimension(300, 30));
-		JLabel birthDayDateL = new JLabel("День рождения: ");
+		JLabel birthDayDateL = new JLabel("Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ: ");
 		dayBirth = new JTextField(3);
 		
 		secondOptPanel.add(birthYearDateL);
@@ -137,14 +137,14 @@ public class SearchFrame extends JFrame {
 		secondOptPanel.add(dayBirth);
 		secondOptPanel.add(search2);
 		
-		JLabel birthDayDate = new JLabel("День рождения: ");
+		JLabel birthDayDate = new JLabel("Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏпїЅ: ");
 		dayBirth1 = new JTextField(3);
-		JLabel birthMonthDateL = new JLabel("Месяц рождения: ");
+		JLabel birthMonthDateL = new JLabel("РњРµСЃСЏС† СЂРѕР¶РґРµРЅРёСЏ: ");
 		monthBirth = new JTextField(3);
 		if(ifDelete)
-			search3 = new JButton("Удалить");
+			search3 = new JButton("РЈРґР°Р»РёС‚СЊ");
 		else
-			search3 = new JButton("Найти");
+			search3 = new JButton("РќР°Р№С‚Рё");
 		search3.setPreferredSize(new Dimension(300, 30));
 		
 		thirdOptPanel.add(birthDayDate);
@@ -153,18 +153,18 @@ public class SearchFrame extends JFrame {
 		thirdOptPanel.add(monthBirth);
 		thirdOptPanel.add(search3);
 
-		JLabel startYearDateL = new JLabel("Год поступления: ");
+		JLabel startYearDateL = new JLabel("Р“РѕРґ РїРѕСЃС‚СѓРїР»РµРЅРёСЏ: ");
 		yearStartEnroll = new JTextField(5);
-		JLabel lineL1 = new JLabel(" — ");
+		JLabel lineL1 = new JLabel(" вЂ” ");
 		yearEndEnroll = new JTextField(5);
-		JLabel endYearDateL = new JLabel("Год окончания: ");
+		JLabel endYearDateL = new JLabel("Р“РѕРґ РѕРєРѕРЅС‡Р°РЅРёСЏ: ");
 		yearStartGrade = new JTextField(5);
-		JLabel lineL2 = new JLabel(" — ");
+		JLabel lineL2 = new JLabel(" вЂ” ");
 		yearEndGrade = new JTextField(5);
 		if(ifDelete)
-			search4 = new JButton("Удалить");
+			search4 = new JButton("РЈРґР°Р»РёС‚СЊ");
 		else
-			search4 = new JButton("Найти");
+			search4 = new JButton("РќР°Р№С‚Рё");
 		search4.setPreferredSize(new Dimension(300, 30));
 		
 		fourthOptPanel.add(startYearDateL);
@@ -190,7 +190,7 @@ public class SearchFrame extends JFrame {
 				ctr.getData(name.getText(), surname.getText(), 
 						fatherName.getText(), Integer.valueOf(dayBirth0.getText()), ifDelete);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Р§С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		
@@ -205,7 +205,7 @@ public class SearchFrame extends JFrame {
 					ctr.getData(Integer.valueOf(yearStart.getText()), 
 							Integer.valueOf(yearEnd.getText()), Integer.valueOf(dayBirth.getText()), ifDelete);
 				} catch(Exception ex) {
-					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Р§С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		
@@ -220,7 +220,7 @@ public class SearchFrame extends JFrame {
 					ctr.getData(Integer.valueOf(dayBirth1.getText()), 
 							Integer.valueOf(monthBirth.getText()), ifDelete);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Р§С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		
@@ -235,7 +235,7 @@ public class SearchFrame extends JFrame {
 					ctr.getData(Integer.valueOf(yearStartEnroll.getText()), Integer.valueOf(yearEndEnroll.getText()), 
 							Integer.valueOf(yearStartGrade.getText()), Integer.valueOf(yearEndGrade.getText()), ifDelete);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Р§С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		

@@ -37,7 +37,7 @@ public class AddFrame extends JFrame {
 	
 	public AddFrame(Controller c) {
 		ctr = c;
-        setTitle("Добавить");
+        setTitle("Р”РѕР±Р°РІРёС‚СЊ");
         setSize(333, 240);
         setLocationRelativeTo(null); 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);    
@@ -51,12 +51,12 @@ public class AddFrame extends JFrame {
 	
 	private void initComponents() {
 		
-		JLabel nameL = new JLabel("Имя: ");
-		JLabel surnameL = new JLabel("Фамилия: ");
-		JLabel fatherNameL = new JLabel("Отчество: ");
-		JLabel birthDateL = new JLabel("Дата рождения: ");
-		JLabel startDateL = new JLabel("Дата поступления: ");
-		JLabel endDateL = new JLabel("Дата выпуска: ");
+		JLabel nameL = new JLabel("РРјСЏ: ");
+		JLabel surnameL = new JLabel("Р¤Р°РјРёР»РёСЏ: ");
+		JLabel fatherNameL = new JLabel("РћС‚С‡РµСЃС‚РІРѕ: ");
+		JLabel birthDateL = new JLabel("Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ: ");
+		JLabel startDateL = new JLabel("Р”Р°С‚Р° РїРѕСЃС‚СѓРїР»РµРЅРёСЏ: ");
+		JLabel endDateL = new JLabel("Р”Р°С‚Р° РѕРєРѕРЅС‡Р°РЅРёСЏ: ");
 		
 		name = new JTextField(20);
 		surname = new JTextField(20);
@@ -79,7 +79,7 @@ public class AddFrame extends JFrame {
 		datePanelEnd = new JDatePanelImpl(modelEnd, p);
 		endDate = new JDatePickerImpl(datePanelEnd, new DateComponentFormatter());
 		
-		addButton = new JButton("Добавить");
+		addButton = new JButton("Р”РѕР±Р°РІРёС‚СЊ");
 		addButton.setPreferredSize(new Dimension(318, 30));
 		
 		add(nameL);
@@ -104,7 +104,7 @@ public class AddFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				if(name.getText().isEmpty() || surname.getText().isEmpty() || fatherName.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Р§С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					try{
 						Calendar cal = Calendar.getInstance();
@@ -119,9 +119,9 @@ public class AddFrame extends JFrame {
 						Student std = new Student(name.getText(), surname.getText(), fatherName.getText(), cal, 
 								cal1, cal2);
 						ctr.getNewStudent(std);
-						JOptionPane.showMessageDialog(null, "Новая запись добавлена.", " ", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "РќРѕРІР°СЏ Р·Р°РїРёСЃСЊ РґРѕР±Р°РІР»РµРЅР°.", " ", JOptionPane.INFORMATION_MESSAGE);
 					} catch(Exception ex) {
-						JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Р§С‚Рѕ-С‚Рѕ РЅРµ С‚Р°Рє.", "РћС€РёР±РєР°!", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
