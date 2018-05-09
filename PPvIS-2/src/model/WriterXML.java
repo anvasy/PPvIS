@@ -54,52 +54,17 @@ public class WriterXML {
                 elementStudent.appendChild(elementFIO);
 
                 
-                Element elementDateBirth = doc.createElement("dateBirth");
+                Element elementDateBirth = doc.createElement("dateBirth");         
+                elementDateBirth.setTextContent(stud.dateBirthToString());
+                elementStudent.appendChild(elementDateBirth);
                 
-                Element elementdayBirth = doc.createElement("day");
-                elementdayBirth.setTextContent(Integer.toString(stud.getBirthDay()));
-                elementDateBirth.appendChild(elementdayBirth);
-                
-                Element elementMonthBirth = doc.createElement("month");
-                elementMonthBirth.setTextContent(Integer.toString(stud.getBirthMonth()));
-                elementDateBirth.appendChild(elementMonthBirth);
-                
-                Element elementBirthYear = doc.createElement("year");
-                elementBirthYear.setTextContent(Integer.toString(stud.getBirthYear()));
-                elementDateBirth.appendChild(elementBirthYear);
-                
-                
-                Element elementDateEnroll = doc.createElement("dateEnrollIntoUniversity");
-                
-                Element elementdayEnroll = doc.createElement("day");
-                elementdayEnroll.setTextContent(Integer.toString(stud.getStartUniDay()));
-                elementDateEnroll.appendChild(elementdayEnroll);
-                
-                Element elementMonthEnroll = doc.createElement("month");
-                elementMonthEnroll.setTextContent(Integer.toString(stud.getStartUniMonth()));
-                elementDateEnroll.appendChild(elementMonthEnroll);
-                
-                Element elementYearEnroll = doc.createElement("year");
-                elementYearEnroll.setTextContent(Integer.toString(stud.getStartUniYear()));
-                elementDateEnroll.appendChild(elementYearEnroll);
-                
+                Element elementDateEnroll = doc.createElement("dateStartUniversity");
+                elementDateEnroll.setTextContent(stud.dateEnrollToString());
                 elementStudent.appendChild(elementDateEnroll);
                 
                 
                 Element elementDateGrad = doc.createElement("dateGraduation");
-                
-                Element elementdayGrad = doc.createElement("day");
-                elementdayGrad.setTextContent(Integer.toString(stud.getEndUniDay()));
-                elementDateGrad.appendChild(elementdayEnroll);
-                
-                Element elementMonthGrad = doc.createElement("month");
-                elementMonthGrad.setTextContent(Integer.toString(stud.getEndUniMonth()));
-                elementDateGrad.appendChild(elementMonthEnroll);
-                
-                Element elementYearGrad = doc.createElement("year");
-                elementYearGrad.setTextContent(Integer.toString(stud.getEndUniYear()));
-                elementDateGrad.appendChild(elementYearGrad);
-                
+                elementDateGrad.setTextContent(stud.dateGradToString());
                 elementStudent.appendChild(elementDateGrad);
                 
                 elementList.appendChild(elementStudent);

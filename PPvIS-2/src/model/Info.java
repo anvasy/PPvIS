@@ -14,8 +14,8 @@ public class Info {
 	
 	public Info () {
 		studentData = new ArrayList();
-		Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(118, 03, 04));
+		/*Calendar calendar = Calendar.getInstance();
+		calendar.set(2018, 3, 13);
 		Student e = new Student("1", "a", "a", calendar, calendar, calendar);
 		studentData.add(e);
 		studentData.add(e);
@@ -23,11 +23,15 @@ public class Info {
 		studentData.add(e);
 		studentData.add(e);
 		studentData.add(e);
-		studentData.add(e);
+		studentData.add(e);*/
     }
 	
 	public ArrayList<Student> getData() {
 		return studentData;
+	}
+	
+	public void setData(ArrayList<Student> students) {
+		studentData = students;
 	}
 	
 	public ArrayList<Student> getPartOfArrayForThatGodDamnedTable(ArrayList<Student> stud, int counter, int numRows) {
@@ -101,16 +105,17 @@ public class Info {
     }
     
     public int deleteStudents(String name, String surname, String fatherName, int birthDay) {
+    	
     	int counter = 0;
     	for(int el = 0; el < studentData.size(); el++) {
     		if(name.equals(studentData.get(el).getName()) && surname.equals(studentData.get(el).getSurName())  && 
     				fatherName.equals(studentData.get(el).getFatherName()) && birthDay == studentData.get(el).getBirthDay()) {
     			studentData.remove(el);
+    			el--;
     			counter++;
-    		} else {
-    			continue;
-    		}
+    		} 
     	}
+    	
     	return counter;
     }
     
@@ -120,6 +125,7 @@ public class Info {
     		if(dayBirth == studentData.get(el).getBirthDay()) {
     			if(studentData.get(el).getBirthYear() >= yearStart && studentData.get(el).getBirthYear() <= yearEnd)
     				studentData.remove(el);
+    				el--;
     				counter++;    		
     			} else {
     			continue;
@@ -133,6 +139,7 @@ public class Info {
     	for(int el = 0; el < studentData.size(); el++) {
     		if(day == studentData.get(el).getBirthDay() && month - 1 == studentData.get(el).getBirthMonth()) {
     			studentData.remove(el);
+    			el--;
 				counter++; 
     		} else {
     			continue;
@@ -147,6 +154,7 @@ public class Info {
     		if(yearStartEnroll >= studentData.get(el).getStartUniYear() && yearEndEnroll <= studentData.get(el).getStartUniYear()) {
     			if(studentData.get(el).getEndUniYear() >= yearStartGrad && studentData.get(el).getEndUniYear() <= yearEndGrad)
     				studentData.remove(el);
+    			el--;
 					counter++; 
     		} else {
     			continue;

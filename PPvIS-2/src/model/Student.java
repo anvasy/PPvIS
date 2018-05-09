@@ -5,8 +5,12 @@ import java.util.Calendar;
 import java.util.Vector;
 
 public class Student {
-	private String name, surname, fathername;
-	private Calendar birthDate, startUniDate, endUniDate;
+	private String name;
+	private String surname;
+	private String fathername;
+	private Calendar birthDate;
+	private Calendar startUniDate;
+	private Calendar endUniDate;
 	
 	public Student (String n, String s, String f, Calendar b, Calendar st, Calendar e) {
 		name = n;
@@ -17,6 +21,12 @@ public class Student {
 		endUniDate = e;
 	}
 	
+	public Student () {
+		birthDate = Calendar.getInstance();
+		startUniDate = Calendar.getInstance();
+		endUniDate = Calendar.getInstance();
+	}
+	
 	public Vector returnVec() {
 		Vector<String> vec = new Vector();
 		vec.add(name + " " + surname + " " + fathername);
@@ -25,6 +35,21 @@ public class Student {
 		vec.add(dateFormat.format(startUniDate.getTime()));
 		vec.add(dateFormat.format(endUniDate.getTime()));
 		return vec;
+	}
+	
+	public String dateBirthToString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
+		return dateFormat.format(birthDate.getTime());
+	}
+	
+	public String dateEnrollToString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
+		return dateFormat.format(startUniDate.getTime());
+	}
+	
+	public String dateGradToString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
+		return dateFormat.format(endUniDate.getTime());
 	}
 	
 	public String getName() {
@@ -55,27 +80,36 @@ public class Student {
 		return birthDate.get(Calendar.YEAR);
 	}
 	
-	public int getStartUniDay() {
-		return startUniDate.get(Calendar.DAY_OF_MONTH);
-	}
-	
-	public int getStartUniMonth() {
-		return startUniDate.get(Calendar.MONTH);
-	}
 	
 	public int getStartUniYear() {
 		return startUniDate.get(Calendar.YEAR);
 	}
 	
-	public int getEndUniDay() {
-		return endUniDate.get(Calendar.DAY_OF_MONTH);
-	}
-	
-	public int getEndUniMonth() {
-		return endUniDate.get(Calendar.MONTH);
-	}
-	
 	public int getEndUniYear() {
 		return endUniDate.get(Calendar.YEAR);
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	
+	public void setFathername(String fathername) {
+		this.fathername = fathername;
+	}
+	
+	public void setStartUniDate(int day, int month, int year) {
+		birthDate.set(year, month - 1, day);
+	}
+	
+	public void setEndUniDate(int day, int month, int year) {
+		startUniDate.set(year, month - 1, day);
+	}
+
+	public void setBirthDate(int day, int month, int year) {
+		endUniDate.set(year, month - 1, day);
 	}
 }

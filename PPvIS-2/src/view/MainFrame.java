@@ -3,11 +3,14 @@ package view;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.awt.event.ActionListener;  //sax reader
+import java.util.ArrayList;		
+import java.util.Vector;			
+import java.io.File;
+import java.io.FileFilter;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
@@ -16,14 +19,22 @@ import model.Student;
 
 public class MainFrame extends JFrame {
 	private JMenuBar menuBar;
-	private JMenu operationsMenu, fileMenu;
-	private JMenuItem addItem, searchItem, deleteItem, saveItem, loadItem;
-	private JButton addButton, searchButton, deleteButton, saveButton, loadButton, prevButton, nextButton, updateButton;
-	private JLabel pagesCount;
-	private JTextField numRows;
+	private JMenu operationsMenu;
+	private JMenu fileMenu;
+	private JMenuItem addItem;
+	private JMenuItem searchItem;
+	private JMenuItem deleteItem;
+	private JMenuItem saveItem;
+	private JMenuItem loadItem;
+	private JButton addButton;
+	private JButton searchButton;
+	private JButton deleteButton;
+	private JButton saveButton; 
+	private JButton loadButton;
 	private Controller ctr;
-	private DataTable dataStud;
 	private int counter = 1;
+	private TableComponent tc;
+	private JFileChooser fc;
 	
 	public MainFrame(Controller c) {
 		ctr = c;
@@ -36,34 +47,17 @@ public class MainFrame extends JFrame {
         setResizable(false);
         setVisible(true); 
         setLayout(new FlowLayout(FlowLayout.TRAILING)); 
-        //pack();
     }
 	
 	private void initComponents() {
+		tc = new TableComponent(ctr, ctr.getData());
+		fc = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("XML file", "xml");
+		fc.setFileFilter(filter);
+		ctr.getMainTable(tc);
 		addMenu();
 		addButtons();
-		dataStud = new DataTable(ctr.getData(counter, 5));
-		dataStud.setPreferredSize(new Dimension(520, 25*5));
-		dataStud.resize(new Dimension(520, 25 * 5));
-		ctr.getMainTable(dataStud);
-		JLabel pages = new JLabel("Количество строк: ");
-		numRows = new JTextField(3);
-		numRows.setText("5");
-		prevButton = new JButton("Назад");
-		nextButton = new JButton("Вперёд");
-		updateButton = new JButton("Обновить");
-		if(ctr.getDataSize() == 0)
-			pagesCount = new JLabel("Страница 1 из 1");
-		else
-			pagesCount = new JLabel("Страница " + counter + " из " + (int) Math.ceil(ctr.getDataSize()/5.0));
-		//////
-		add(pages);
-		add(numRows);
-		add(updateButton);
-		add(prevButton);
-		add(nextButton);
-		add(pagesCount);
-		add(dataStud);
+		add(tc);	
 		action();
 	}	
 	
@@ -106,26 +100,45 @@ public class MainFrame extends JFrame {
 	
 	private void action() {
 		
-		JFileChooser fcLoad = new JFileChooser();
 		loadButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub	
+				try {
+					int returnVal = fc.showOpenDialog(MainFrame.this);
 				
-				int returnVal = fcLoad.showOpenDialog(MainFrame.this);
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						if(file.getName().contains(".xml")){
+							ctr.readFile(file);
+						} else {
+							JOptionPane.showMessageDialog(null, "Неверный формат файла.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				} catch (Exception ex) {
+					System.out.println("Error");
+				}
 			}
     		
     	});
 		
-		JFileChooser fcSave = new JFileChooser();
 		saveButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				int returnVal = fcSave.showSaveDialog(MainFrame.this);
+				try {
+					int returnVal = fc.showSaveDialog(MainFrame.this);
+				
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						ctr.writeXML(file);
+					}
+				} catch (Exception ex) {
+					System.out.println("Error");
+				}
 			}
     		
     	});
@@ -147,7 +160,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new SearchFrame(ctr);
+				new SearchFrame(ctr, false);
 			}
 
     	});
@@ -158,7 +171,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new DeleteFrame(ctr);
+				new SearchFrame(ctr, true);
 			}
     		
     	});
@@ -168,10 +181,19 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				try {
+					int returnVal = fc.showOpenDialog(MainFrame.this);
 				
-				int returnVal = fcLoad.showOpenDialog(MainFrame.this);
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						if(file.getName().contains(".xml")){
+							ctr.readFile(file);
+						}
+					}
+				} catch (Exception ex) {
+					System.out.println("Error");
+				}
 			}
-    		
     	});
 		
 		saveItem.addActionListener(new ActionListener() {
@@ -179,11 +201,18 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				JFileChooser fc = new JFileChooser();
-				if(fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
-					System.out.println(fc.getSelectedFile().getName());
-					//ileOutputStream fileStream = new FileOutputStream(fc.getSelectedFile());
-				//System.out.println(fcSave.showSaveDialog(MainFrame.this));
+				
+				try {
+					int returnVal = fc.showSaveDialog(MainFrame.this);
+				
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						ctr.writeXML(file);
+					}
+				} catch (Exception ex) {
+					System.out.println("Error");
+				}
+				
 			}
     		
     	});
@@ -205,7 +234,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new SearchFrame(ctr);
+				new SearchFrame(ctr, false);
 			}
 
     	});
@@ -216,73 +245,9 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new DeleteFrame(ctr);
+				new SearchFrame(ctr, true);
 			}
     		
     	});
-		
-		updateButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				int nRows = Integer.valueOf(numRows.getText());
-				if(nRows >=2 && nRows <= 14) {
-					dataStud.setPreferredSize(new Dimension(520, 25*nRows));
-					dataStud.resize(new Dimension(520, 25 * nRows));
-					counter = 1;
-					ctr.updatePage(dataStud, 1, Integer.valueOf(numRows.getText()));
-					pagesCount.setText("Страница " + counter + " из " + 
-								(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
-				}
-				else {
-					numRows.setText("5");
-					dataStud.setPreferredSize(new Dimension(520, 25*5));
-					dataStud.resize(new Dimension(520, 25 * 5));
-					counter = 1;
-					ctr.updatePage(dataStud, 1, 5);
-					pagesCount.setText("Страница " + counter + " из " + 
-								(int) Math.ceil(ctr.getDataSize()/5));
-				}
-			}
-			
-		});
-		
-		nextButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				if(ctr.getDataSize() > Integer.valueOf(numRows.getText()) * counter)
-				{
-					counter++;
-					pagesCount.setText("Страница " + counter + " из " + 
-									(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
-					dataStud.removeData();
-					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()));
-					dataStud.setPreferredSize(new Dimension(520, 25*Integer.valueOf(numRows.getText())));
-					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
-				}
-			}
-		});
-				
-		prevButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				if(counter > 1)
-				{
-					counter--;
-					pagesCount.setText("Страница " + counter + " из " + 
-									(int) Math.ceil(ctr.getDataSize()/Double.valueOf(numRows.getText())));
-					dataStud.removeData();
-					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()));	
-					dataStud.setPreferredSize(new Dimension(520, 25*Integer.valueOf(numRows.getText())));
-					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
-				}
-				
-			}
-		});
 	}
 }

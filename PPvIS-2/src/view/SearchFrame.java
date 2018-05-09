@@ -19,13 +19,38 @@ import org.jdatepicker.impl.UtilDateModel;
 import controller.Controller;
 
 public class SearchFrame extends JFrame {
-	private JTextField name, surname, fatherName, yearStart, yearEnd, dayBirth, yearStartEnroll, yearEndEnroll, yearStartGrade, yearEndGrade, dayBirth1, monthBirth, dayBirth0;
-	private JButton search1, search2, search3, search4;
+	private JTextField name;
+	private JTextField surname;
+	private JTextField fatherName;
+	private JTextField yearStart;
+	private JTextField yearEnd;
+	private JTextField dayBirth;
+	private JTextField yearStartEnroll;
+	private JTextField yearEndEnroll;
+	private JTextField yearStartGrade;
+	private JTextField yearEndGrade;
+	private JTextField dayBirth1;
+	private JTextField monthBirth; 
+	private JTextField dayBirth0;
+	
+	private JButton search1;
+	private JButton search2;
+	private JButton search3;
+	private JButton search4;
+	
 	private Controller ctr;
 	
-	public SearchFrame(Controller c) {
+	boolean ifDelete;
+	
+	public SearchFrame(Controller c, boolean ifDelete) {
 		ctr = c;
-        setTitle("Найти");
+		this.ifDelete = ifDelete;
+		
+		if(ifDelete)
+         setTitle("Удалить");
+		else
+			setTitle("Найти");
+		
         setSize(340, 700);
         setLocationRelativeTo(null); 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);    
@@ -70,7 +95,10 @@ public class SearchFrame extends JFrame {
 		name = new JTextField(20);
 		surname = new JTextField(20);
 		fatherName = new JTextField(20);
-		search1 = new JButton("Найти");
+		if(ifDelete)
+			search1 = new JButton("Удалить");
+		else
+			search1 = new JButton("Найти");
 		search1.setPreferredSize(new Dimension(300, 30));
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -93,7 +121,10 @@ public class SearchFrame extends JFrame {
 		yearStart = new JTextField(5);
 		JLabel lineL = new JLabel(" — ");
 		yearEnd = new JTextField(5);
-		search2 = new JButton("Найти");
+		if(ifDelete)
+			search2 = new JButton("Удалить");
+		else
+			search2 = new JButton("Найти");;
 		search2.setPreferredSize(new Dimension(300, 30));
 		JLabel birthDayDateL = new JLabel("День рождения: ");
 		dayBirth = new JTextField(3);
@@ -110,7 +141,10 @@ public class SearchFrame extends JFrame {
 		dayBirth1 = new JTextField(3);
 		JLabel birthMonthDateL = new JLabel("Месяц рождения: ");
 		monthBirth = new JTextField(3);
-		search3 = new JButton("Найти");
+		if(ifDelete)
+			search3 = new JButton("Удалить");
+		else
+			search3 = new JButton("Найти");
 		search3.setPreferredSize(new Dimension(300, 30));
 		
 		thirdOptPanel.add(birthDayDate);
@@ -127,7 +161,10 @@ public class SearchFrame extends JFrame {
 		yearStartGrade = new JTextField(5);
 		JLabel lineL2 = new JLabel(" — ");
 		yearEndGrade = new JTextField(5);
-		search4 = new JButton("Найти");
+		if(ifDelete)
+			search4 = new JButton("Удалить");
+		else
+			search4 = new JButton("Найти");
 		search4.setPreferredSize(new Dimension(300, 30));
 		
 		fourthOptPanel.add(startYearDateL);
@@ -149,8 +186,12 @@ public class SearchFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				try {
 				ctr.getData(name.getText(), surname.getText(), 
-						fatherName.getText(), Integer.valueOf(dayBirth0.getText()), false);
+						fatherName.getText(), Integer.valueOf(dayBirth0.getText()), ifDelete);
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
     		
     	});
@@ -162,9 +203,9 @@ public class SearchFrame extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					ctr.getData(Integer.valueOf(yearStart.getText()), 
-							Integer.valueOf(yearEnd.getText()), Integer.valueOf(dayBirth.getText()), false);
+							Integer.valueOf(yearEnd.getText()), Integer.valueOf(dayBirth.getText()), ifDelete);
 				} catch(Exception ex) {
-					JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		
@@ -177,9 +218,9 @@ public class SearchFrame extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					ctr.getData(Integer.valueOf(dayBirth1.getText()), 
-							Integer.valueOf(monthBirth.getText()), false);
+							Integer.valueOf(monthBirth.getText()), ifDelete);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		
@@ -192,9 +233,9 @@ public class SearchFrame extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					ctr.getData(Integer.valueOf(yearStartEnroll.getText()), Integer.valueOf(yearEndEnroll.getText()), 
-							Integer.valueOf(yearStartGrade.getText()), Integer.valueOf(yearEndGrade.getText()), false);
+							Integer.valueOf(yearStartGrade.getText()), Integer.valueOf(yearEndGrade.getText()), ifDelete);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		

@@ -20,10 +20,18 @@ import model.Student;
 
 public class AddFrame extends JFrame {
 	 
-	private UtilDateModel modelBirth, modelStart, modelEnd;
-	private JDatePanelImpl datePanelBirth, datePanelStart, datePanelEnd;
-	private JDatePickerImpl birthDate, startDate, endDate;
-	private JTextField name, surname, fatherName;
+	private UtilDateModel modelBirth;
+	private UtilDateModel modelStart;
+	private UtilDateModel modelEnd;
+	private JDatePanelImpl datePanelBirth;
+	private JDatePanelImpl datePanelStart;
+	private JDatePanelImpl datePanelEnd;
+	private JDatePickerImpl birthDate;
+	private JDatePickerImpl startDate;
+	private JDatePickerImpl endDate;
+	private JTextField name;
+	private JTextField surname;
+	private JTextField fatherName;
 	private JButton addButton;
 	private Controller ctr;
 	
@@ -98,7 +106,7 @@ public class AddFrame extends JFrame {
 				if(name.getText().isEmpty() || surname.getText().isEmpty() || fatherName.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Заоплните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					try {
+					try{
 						Calendar cal = Calendar.getInstance();
 						Date date = (Date) birthDate.getModel().getValue();
 						cal.setTime(date);

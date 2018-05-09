@@ -8,89 +8,96 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SAXReader extends DefaultHandler {
-    private List<Student> students;
+    private ArrayList<Student> students;
     private Student student;
-    private Exam exam;
-    private Element thisElem;
+    private ElementType thisEl;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    	
+    	if (qName.equals("studentData")) {
+            students = new ArrayList();
+            thisEl = ElementType.studentData;
+            return;
+        }
+    	
         if (qName.equals("student")) {
-            student = new Student();
-            thisElem = Element.student;
+        	student = new Student();
+            thisEl = ElementType.student;
             return;
         }
-        if (qName.equals("mark")) {
-            thisElem = Element.mark;
-            return;
-        }
-        if (qName.equals("nameSubj")) {
-            thisElem = Element.nameSubj;
-            return;
-        }
-        if (qName.equals("name")) {
-            thisElem = Element.name;
-            return;
-        }
-        if (qName.equals("surname")) {
-            thisElem = Element.surname;
-            return;
-        }
-        if (qName.equals("patronymic")) {
-            thisElem = Element.patronymic;
-            return;
-        }
-        if (qName.equals("group")) {
-            thisElem = Element.group;
-            return;
-        }
+        
         if (qName.equals("FIO")) {
-            thisElem = Element.FIO;
+            thisEl = ElementType.FIO;
             return;
         }
-        if (qName.equals("exam")) {
-            exam = new Exam();
-            thisElem = Element.exam;
+        
+        if (qName.equals("dateBirth")) {
+            thisEl = ElementType.birthday;
             return;
         }
-        if (qName.equals("exams")) {
-            exams = new ArrayList<>();
-            thisElem = Element.exams;
+        
+        if (qName.equals("dateStartUniversity")) {
+            thisEl = ElementType.enrollDate;
             return;
         }
-        if (qName.equals("listStudent")) {
-            students = new ArrayList<>();
-            thisElem = Element.listStudent;
+        
+        if (qName.equals("dateGraduation")) {
+            thisEl = ElementType.graduateDate;
+            return;
+        }
+    
+        if (qName.equals("name")) {
+            thisEl = ElementType.name;
+            return;
+        }
+        
+        if (qName.equals("surname")) {
+            thisEl = ElementType.surname;
+            return;
+        }
+        
+        if (qName.equals("fatherName")) {
+            thisEl = ElementType.fathername;
             return;
         }
     }
-
+    
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         String str = new String(ch, start, length).trim();
-        if ("".equals(str)) return;
-        if (thisElem == Element.mark) {
-            exam.setMark(Integer.parseInt(str));
-            return;
-        }
-        if (thisElem == Element.nameSubj) {
-            exam.setNameExam(str);
-            return;
-        }
-        if (thisElem == Element.name) {
+        
+        if ("".equals(str)) 
+        	return;
+        
+        if (thisEl == ElementType.name) {
             student.setName(str);
             return;
         }
-        if (thisElem == Element.surname) {
+        if (thisEl == ElementType.surname) {
             student.setSurname(str);
             return;
         }
-        if (thisElem == Element.patronymic) {
-            student.setPatronymic(str);
+        if (thisEl == ElementType.fathername) {
+            student.setFathername(str);
             return;
         }
-        if (thisElem == Element.group) {
-            student.setGroup(Integer.parseInt(str));
+        
+        if (thisEl == ElementType.birthday) {
+        	String[] parts = str.split("-");
+        	student.setBirthDate(Integer.valueOf(parts[2]), Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
+            return;
+        }
+        
+        if (thisEl == ElementType.enrollDate) {
+        	String[] parts = str.split("-");
+        	student.setStartUniDate(Integer.valueOf(parts[2]), Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
+            return;
+        }
+        
+        if (thisEl == ElementType.graduateDate) {
+        	String[] parts = str.split("-");
+        	student.setEndUniDate(Integer.valueOf(parts[2]), Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
             return;
         }
     }
@@ -102,25 +109,23 @@ public class SAXReader extends DefaultHandler {
             student = null;
             return;
         }
-        if (qName.equals("exam")) {
-            exams.add(exam);
-            exam = null;
-            return;
-        }
-        if (qName.equals("exams")) {
-            student.setExams(exams);
-            exams = null;
-            return;
-        }
     }
-
-    public List<Student> getStudents() {
-        List list = students;
+    
+    public ArrayList<Student> getStudents() {
+        ArrayList<Student> list = students;
         students = null;
         return list;
     }
 }
 
-enum Element {
-    student, exams, listStudent, exam, group, mark, name, surname, patronymic, FIO, nameSubj;
+enum ElementType {
+	student,
+	studentData,
+	name,
+	surname,
+	fathername,
+	FIO,
+	birthday,
+	enrollDate,
+	graduateDate;
 }

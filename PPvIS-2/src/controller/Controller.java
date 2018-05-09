@@ -1,29 +1,38 @@
 package controller;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import model.Info;
+import model.SAXReader;
 import model.Student;
+import model.WriterXML;
 import view.DataTable;
 import view.ResultFrame;
+import view.TableComponent;
 
 public class Controller {
 	private Info info;
-	private DataTable mainTable;
-
+	private TableComponent tc;
+	private WriterXML writerXML;
+	private SAXReader saxReader;
+	
     public Controller(Info inf) {
     	info = inf;
     }
 	
 	public void getNewStudent(Student stud) {
 		info.addNewLine(stud);
-		updatePage(mainTable, 1, 5);
+		updatePage(tc.getTable(), 1, 5, info.getData());
 	}
 	
 	public ArrayList<Student> getData(int counter, int numRows) {
@@ -33,14 +42,18 @@ public class Controller {
 	public ArrayList<Student> getData(ArrayList<Student> stud, int counter, int numRows) {
 		return info.getPartOfArrayForThatGodDamnedTable(stud, counter, numRows);
 	}
+	
+	public ArrayList<Student> getData() {
+		return info.getData();
+	}
  	
-	public int getDataSize() {
-		return info.getData().size();
+	public int getDataSize(ArrayList<Student> data) {
+		return data.size();
 	}
 	
-	public void updatePage(DataTable table, int counter, int numRows) {
+	public void updatePage(DataTable table, int counter, int numRows, ArrayList<Student> stud) {
 		ArrayList<Student> newData = new ArrayList();
-		newData = info.getPartOfArrayForThatGodDamnedTable(info.getData(), counter, numRows);
+		newData = info.getPartOfArrayForThatGodDamnedTable(stud, counter, numRows);
 		for(int row = 0; row < newData.size(); row++) {
 			Vector v = new Vector();
             v = newData.get(row).returnVec();
@@ -49,14 +62,51 @@ public class Controller {
 			}
 			
 		}
+		tc.updateElementsNumber();
+	}
+	
+	
+	public boolean writeXML(File file) {
+		if (writerXML == null)
+            writerXML = new WriterXML(info.getData());
+        writerXML.setFile(file);
+        try {
+            writerXML.write();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+	}
+	
+	
+	public boolean readFile(File file) {
+		 if (saxReader == null) 
+			 saxReader = new SAXReader();
+		 try {
+	    	 
+	         SAXParserFactory factory = SAXParserFactory.newInstance();
+	         SAXParser parser = factory.newSAXParser();    
+	         parser.parse(file, saxReader);
+	         ArrayList<Student> studData = new ArrayList();
+	         studData = saxReader.getStudents();
+	         info.setData(studData);
+	         tc.newData(studData);
+	         tc.getTable().removeData();
+	         updatePage(tc.getTable(), 1, 5, info.getData()); 
+	         
+	         return true;
+		 } catch (Exception ex) { 
+			 ex.printStackTrace();
+	         return false;
+		 }
 	}
 	
 	public void getData(String name, String surname, String fatherName, int birthDay, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены" + info.deleteStudents(name, surname, fatherName, birthDay) 
-						+ "записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-			mainTable.removeData();
-			updatePage(mainTable, 1, 5);
+			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(name, surname, fatherName, birthDay) 
+						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			tc.getTable().removeData();
+			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(name, surname, fatherName, birthDay).isEmpty()) {
 				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
@@ -71,8 +121,8 @@ public class Controller {
 		if(ifDelete) {
 			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(yearStart, yearEnd, dayBirth) 
 						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-			mainTable.removeData();
-			updatePage(mainTable, 1, 5);
+			tc.getTable().removeData();
+			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(yearStart, yearEnd, dayBirth).isEmpty()) {
 				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
@@ -87,14 +137,14 @@ public class Controller {
 		if(ifDelete) {
 			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(day, month) 
 						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-			mainTable.removeData();
-			updatePage(mainTable, 1, 5);
+			tc.getTable().removeData();
+			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
-			if(info.searchStudents(day, month).isEmpty()) {
+			if(info.searchStudents(day, month).size() == 0) {
 				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
 						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				new ResultFrame(info.getPartOfArrayForThatGodDamnedTable(info.searchStudents(day, month), 5, 1), this);
+				new ResultFrame(info.searchStudents(day, month), this);
 			}
 		}
 	}
@@ -103,8 +153,8 @@ public class Controller {
 		if(ifDelete) {
 			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad) + 
 						" записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-			mainTable.removeData();
-			updatePage(mainTable, 1, 5);
+			tc.getTable().removeData();
+			updatePage(tc.getTable(), 1, 5, info.getData());
 		} else {
 			if(info.searchStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad).isEmpty()) {
 				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
@@ -115,7 +165,7 @@ public class Controller {
 		}
 	}
 	
-	public void getMainTable(DataTable table) {
-    	mainTable = table;
+	public void getMainTable(TableComponent tc) {
+    	this.tc = tc;
     }
 }
