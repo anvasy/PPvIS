@@ -80,13 +80,13 @@ public class SearchFrame extends JFrame {
     	fourthOptPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
     	
     	container.add(firstOptPanel);
-    	firstOptPanel.setBorder(BorderFactory.createTitledBorder("�1"));
+    	firstOptPanel.setBorder(BorderFactory.createTitledBorder("№1"));
     	container.add(secondOptPanel);
-    	secondOptPanel.setBorder(BorderFactory.createTitledBorder("�2"));
+    	secondOptPanel.setBorder(BorderFactory.createTitledBorder("№2"));
     	container.add(thirdOptPanel);
-    	thirdOptPanel.setBorder(BorderFactory.createTitledBorder("�3"));
+    	thirdOptPanel.setBorder(BorderFactory.createTitledBorder("№3"));
     	container.add(fourthOptPanel);
-    	fourthOptPanel.setBorder(BorderFactory.createTitledBorder("�4"));
+    	fourthOptPanel.setBorder(BorderFactory.createTitledBorder("№4"));
     	
     	JLabel nameL = new JLabel("Имя: ");
 		JLabel surnameL = new JLabel("Фамилия: ");
@@ -137,7 +137,7 @@ public class SearchFrame extends JFrame {
 		secondOptPanel.add(dayBirth);
 		secondOptPanel.add(search2);
 		
-		JLabel birthDayDate = new JLabel("День рождения�: ");
+		JLabel birthDayDate = new JLabel("День рождения: ");
 		dayBirth1 = new JTextField(3);
 		JLabel birthMonthDateL = new JLabel("Месяц рождения: ");
 		monthBirth = new JTextField(3);
@@ -187,8 +187,14 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-				ctr.getData(name.getText(), surname.getText(), 
+					int check = ctr.getData(name.getText(), surname.getText(), 
 						fatherName.getText(), Integer.valueOf(dayBirth0.getText()), ifDelete);
+					if(check >= 0)
+						JOptionPane.showMessageDialog(null, "Были удалены " + check 
+						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					if(check == -1)
+						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
+								"Внимание!", JOptionPane.INFORMATION_MESSAGE);	
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -202,8 +208,14 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					ctr.getData(Integer.valueOf(yearStart.getText()), 
+					int check = ctr.getData(Integer.valueOf(yearStart.getText()), 
 							Integer.valueOf(yearEnd.getText()), Integer.valueOf(dayBirth.getText()), ifDelete);
+					if(check >= 0)
+						JOptionPane.showMessageDialog(null, "Были удалены " + check 
+						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					if(check == -1)
+						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
+								"Внимание!", JOptionPane.INFORMATION_MESSAGE);
 				} catch(Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -217,8 +229,14 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					ctr.getData(Integer.valueOf(dayBirth1.getText()), 
+					int check = ctr.getData(Integer.valueOf(dayBirth1.getText()), 
 							Integer.valueOf(monthBirth.getText()), ifDelete);
+					if(check >= 0)
+						JOptionPane.showMessageDialog(null, "Были удалены " + check 
+						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					if(check == -1)
+						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
+								"Внимание!", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -232,8 +250,14 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					ctr.getData(Integer.valueOf(yearStartEnroll.getText()), Integer.valueOf(yearEndEnroll.getText()), 
+					int check = ctr.getData(Integer.valueOf(yearStartEnroll.getText()), Integer.valueOf(yearEndEnroll.getText()), 
 							Integer.valueOf(yearStartGrade.getText()), Integer.valueOf(yearEndGrade.getText()), ifDelete);
+					if(check >= 0)
+						JOptionPane.showMessageDialog(null, "Были удалены " + check 
+						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					if(check == -1)
+						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
+								"Внимание!", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}

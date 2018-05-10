@@ -101,66 +101,66 @@ public class Controller {
 		 }
 	}
 	
-	public void getData(String name, String surname, String fatherName, int birthDay, boolean ifDelete) {
+	public int getData(String name, String surname, String fatherName, int birthDay, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(name, surname, fatherName, birthDay) 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			int counter = info.deleteStudents(name, surname, fatherName, birthDay);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
+			return counter;
 		} else {
 			if(info.searchStudents(name, surname, fatherName, birthDay).isEmpty()) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				return -1;
 			} else {
 				new ResultFrame(info.searchStudents(name, surname, fatherName, birthDay), this);
+				return -2;
 			}
 		}
 	}
 	
-	public void getData(int yearStart, int yearEnd, int dayBirth, boolean ifDelete) {
+	public int getData(int yearStart, int yearEnd, int dayBirth, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(yearStart, yearEnd, dayBirth) 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			int counter = info.deleteStudents(yearStart, yearEnd, dayBirth);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
+			return counter;
 		} else {
 			if(info.searchStudents(yearStart, yearEnd, dayBirth).isEmpty()) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				return -1;
 			} else {
 				new ResultFrame(info.searchStudents(yearStart, yearEnd, dayBirth), this);
+				return -2;
 			}
 		}
 	}
 	
-	public void getData(int day, int month, boolean ifDelete) {
+	public int getData(int day, int month, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(day, month) 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			int counter = info.deleteStudents(day, month);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
+			return counter;
 		} else {
 			if(info.searchStudents(day, month).size() == 0) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				return -1;
 			} else {
 				new ResultFrame(info.searchStudents(day, month), this);
+				return -2;
 			}
 		}
 	}
 	
-	public void getData(int yearStartEnroll, int yearEndEnroll, int yearStartGrad, int yearEndGrad, boolean ifDelete) {
+	public int getData(int yearStartEnroll, int yearEndEnroll, int yearStartGrad, int yearEndGrad, boolean ifDelete) {
 		if(ifDelete) {
-			JOptionPane.showMessageDialog(null, "Были удалены " + info.deleteStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad) + 
-						" записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			int counter = info.deleteStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad);
 			tc.getTable().removeData();
 			updatePage(tc.getTable(), 1, 5, info.getData());
+			return counter;
 		} else {
 			if(info.searchStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad).isEmpty()) {
-				JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-						"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+				return -1;
 			} else {
 				new ResultFrame(info.searchStudents(yearStartEnroll, yearEndEnroll, yearStartGrad, yearEndGrad), this);
+				return -2;
 			}
 		}
 	}
