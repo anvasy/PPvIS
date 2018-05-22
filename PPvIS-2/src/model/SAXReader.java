@@ -10,55 +10,55 @@ import java.util.List;
 public class SAXReader extends DefaultHandler {
     private ArrayList<Student> students;
     private Student student;
-    private ElementType thisEl;
+    private ElementNames thisEl;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
     	
-    	if (qName.equals("studentData")) {
-            students = new ArrayList();
-            thisEl = ElementType.studentData;
+    	if (qName.equals(ElementNames.studentData.toString())) {
+            students = new ArrayList<Student>();
+            thisEl = ElementNames.studentData;
             return;
         }
     	
-        if (qName.equals("student")) {
+        if (qName.equals(ElementNames.student.toString())) {
         	student = new Student();
-            thisEl = ElementType.student;
+            thisEl = ElementNames.student;
             return;
         }
         
-        if (qName.equals("FIO")) {
-            thisEl = ElementType.FIO;
+        if (qName.equals(ElementNames.FIO.toString())) {
+            thisEl = ElementNames.FIO;
             return;
         }
         
-        if (qName.equals("dateBirth")) {
-            thisEl = ElementType.birthday;
+        if (qName.equals(ElementNames.birthday.toString())) {
+            thisEl = ElementNames.birthday;
             return;
         }
         
-        if (qName.equals("dateStartUniversity")) {
-            thisEl = ElementType.enrollDate;
+        if (qName.equals(ElementNames.enrollDate.toString())) {
+            thisEl = ElementNames.enrollDate;
             return;
         }
         
         if (qName.equals("dateGraduation")) {
-            thisEl = ElementType.graduateDate;
+            thisEl = ElementNames.graduateDate;
             return;
         }
     
-        if (qName.equals("name")) {
-            thisEl = ElementType.name;
+        if (qName.equals( ElementNames.name.toString())) {
+            thisEl = ElementNames.name;
             return;
         }
         
-        if (qName.equals("surname")) {
-            thisEl = ElementType.surname;
+        if (qName.equals(ElementNames.surname.toString())) {
+            thisEl = ElementNames.surname;
             return;
         }
         
-        if (qName.equals("fatherName")) {
-            thisEl = ElementType.fathername;
+        if (qName.equals(ElementNames.fathername.toString())) {
+            thisEl = ElementNames.fathername;
             return;
         }
     }
@@ -70,32 +70,32 @@ public class SAXReader extends DefaultHandler {
         if ("".equals(str)) 
         	return;
         
-        if (thisEl == ElementType.name) {
+        if (thisEl == ElementNames.name) {
             student.setName(str);
             return;
         }
-        if (thisEl == ElementType.surname) {
+        if (thisEl == ElementNames.surname) {
             student.setSurname(str);
             return;
         }
-        if (thisEl == ElementType.fathername) {
+        if (thisEl == ElementNames.fathername) {
             student.setFathername(str);
             return;
         }
         
-        if (thisEl == ElementType.birthday) {
+        if (thisEl == ElementNames.birthday) {
         	String[] parts = str.split("-");
         	student.setBirthDate(Integer.valueOf(parts[2]), Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
             return;
         }
         
-        if (thisEl == ElementType.enrollDate) {
+        if (thisEl == ElementNames.enrollDate) {
         	String[] parts = str.split("-");
         	student.setStartUniDate(Integer.valueOf(parts[2]), Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
             return;
         }
         
-        if (thisEl == ElementType.graduateDate) {
+        if (thisEl == ElementNames.graduateDate) {
         	String[] parts = str.split("-");
         	student.setEndUniDate(Integer.valueOf(parts[2]), Integer.valueOf(parts[1]), Integer.valueOf(parts[0]));
             return;
@@ -104,7 +104,7 @@ public class SAXReader extends DefaultHandler {
 
     @Override
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-        if (qName.equals("student")) {
+        if (qName.equals(ElementNames.student.toString())) {	
             students.add(student);
             student = null;
             return;
@@ -116,16 +116,4 @@ public class SAXReader extends DefaultHandler {
         students = null;
         return list;
     }
-}
-
-enum ElementType {
-	student,
-	studentData,
-	name,
-	surname,
-	fathername,
-	FIO,
-	birthday,
-	enrollDate,
-	graduateDate;
 }

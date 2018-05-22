@@ -34,36 +34,36 @@ public class WriterXML {
     public void write() throws TransformerException, ParserConfigurationException {
         if (file != null && students != null) {
             doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            Element elementList = doc.createElement("studentData");
+            Element elementList = doc.createElement(ElementNames.studentData.toString());
             for (Student stud : students) {
-                Element elementStudent = doc.createElement("student");
-                Element elementFIO = doc.createElement("FIO");
+                Element elementStudent = doc.createElement(ElementNames.student.toString());
+                Element elementFIO = doc.createElement(ElementNames.FIO.toString());
 
-                Element elementName = doc.createElement("name");
+                Element elementName = doc.createElement(ElementNames.name.toString());
                 elementName.setTextContent(stud.getName());
                 elementFIO.appendChild(elementName);
 
-                Element elementSurname = doc.createElement("surname");
+                Element elementSurname = doc.createElement(ElementNames.surname.toString());
                 elementSurname.setTextContent(stud.getSurName());
                 elementFIO.appendChild(elementSurname);
 
-                Element elementFatherName = doc.createElement("fatherName");
+                Element elementFatherName = doc.createElement(ElementNames.fathername.toString());
                 elementFatherName.setTextContent(stud.getFatherName());
                 elementFIO.appendChild(elementFatherName);
 
                 elementStudent.appendChild(elementFIO);
 
                 
-                Element elementDateBirth = doc.createElement("dateBirth");         
+                Element elementDateBirth = doc.createElement(ElementNames.birthday.toString());         
                 elementDateBirth.setTextContent(stud.dateBirthToString());
                 elementStudent.appendChild(elementDateBirth);
                 
-                Element elementDateEnroll = doc.createElement("dateStartUniversity");
+                Element elementDateEnroll = doc.createElement(ElementNames.enrollDate.toString());
                 elementDateEnroll.setTextContent(stud.dateEnrollToString());
                 elementStudent.appendChild(elementDateEnroll);
                 
                 
-                Element elementDateGrad = doc.createElement("dateGraduation");
+                Element elementDateGrad = doc.createElement(ElementNames.graduateDate.toString());
                 elementDateGrad.setTextContent(stud.dateGradToString());
                 elementStudent.appendChild(elementDateGrad);
                 

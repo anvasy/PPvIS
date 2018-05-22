@@ -14,6 +14,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
+import controller.DeleteStrategy;
+import controller.SearchDayAndMonthStrategy;
+import controller.SearchNameAndDayStrategy;
+import controller.SearchYearAndDayStrategy;
+import controller.SearchYearsStrategy;
+import controller.StrategyChooser;
 import model.Info;
 import model.Student;
 
@@ -32,12 +38,13 @@ public class MainFrame extends JFrame {
 	private JButton saveButton; 
 	private JButton loadButton;
 	private Controller ctr;
-	private int counter = 1;
 	private TableComponent tc;
 	private JFileChooser fc;
+	private MainFrame m;
 	
 	public MainFrame(Controller c) {
 		ctr = c;
+		m = this;
         setTitle("MainFrame");
         setSize(540, 500);
         setLocationRelativeTo(null); 
@@ -50,11 +57,10 @@ public class MainFrame extends JFrame {
     }
 	
 	private void initComponents() {
-		tc = new TableComponent(ctr, ctr.getData());
+		tc = new TableComponent(ctr.getData());
 		fc = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("XML file", "xml");
 		fc.setFileFilter(filter);
-		ctr.getMainTable(tc);
 		addMenu();
 		addButtons();
 		add(tc);	
@@ -112,6 +118,8 @@ public class MainFrame extends JFrame {
 						File file = fc.getSelectedFile();
 						if(file.getName().contains(".xml")){
 							ctr.readFile(file);
+							tc.newData(ctr.getData());
+							tc.updatePage(1, 5);
 						} else {
 							JOptionPane.showMessageDialog(null, "Неверный формат файла.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 						}
@@ -148,8 +156,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
-				new AddFrame(ctr);
+				new AddFrame(ctr, m);
 			}
     		
     	});
@@ -160,7 +167,8 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new SearchFrame(ctr, false);
+				new SearchFrame(ctr, MainFrame.this, new SearchNameAndDayStrategy(),
+						new SearchYearAndDayStrategy(), new SearchDayAndMonthStrategy(), new SearchYearsStrategy());
 			}
 
     	});
@@ -171,7 +179,8 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new SearchFrame(ctr, true);
+				new SearchFrame(ctr, MainFrame.this, new DeleteStrategy(), 
+						new DeleteStrategy(), new DeleteStrategy(), new DeleteStrategy());
 			}
     		
     	});
@@ -223,7 +232,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new AddFrame(ctr);
+				new AddFrame(ctr, m);
 			}
     		
     	});
@@ -234,7 +243,8 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				new SearchFrame(ctr, false);
+				new SearchFrame(ctr, MainFrame.this, new SearchNameAndDayStrategy(),
+						new SearchYearAndDayStrategy(), new SearchDayAndMonthStrategy(), new SearchYearsStrategy());
 			}
 
     	});
@@ -244,10 +254,18 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
-				new SearchFrame(ctr, true);
+				new SearchFrame(ctr, MainFrame.this, new DeleteStrategy(), new DeleteStrategy(),
+						new DeleteStrategy(), new DeleteStrategy());
 			}
     		
     	});
+	}
+	
+	public TableComponent getTableComponent() {
+		return tc;
+	}
+	
+	public void updateTable() {
+		tc.updatePage(1, 5);
 	}
 }

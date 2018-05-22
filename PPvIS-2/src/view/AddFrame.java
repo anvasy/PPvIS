@@ -16,6 +16,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import controller.Controller;
+import controller.Strategy;
 import model.Student;
 
 public class AddFrame extends JFrame {
@@ -34,9 +35,11 @@ public class AddFrame extends JFrame {
 	private JTextField fatherName;
 	private JButton addButton;
 	private Controller ctr;
+	private MainFrame mainFr;
 	
-	public AddFrame(Controller c) {
+	public AddFrame(Controller c, MainFrame m) {
 		ctr = c;
+		mainFr = m;
         setTitle("Добавить");
         setSize(333, 240);
         setLocationRelativeTo(null); 
@@ -119,6 +122,7 @@ public class AddFrame extends JFrame {
 						Student std = new Student(name.getText(), surname.getText(), fatherName.getText(), cal, 
 								cal1, cal2);
 						ctr.getNewStudent(std);
+						mainFr.updateTable();
 						JOptionPane.showMessageDialog(null, "Новая запись добавлена.", " ", JOptionPane.INFORMATION_MESSAGE);
 					} catch(Exception ex) {
 						JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);

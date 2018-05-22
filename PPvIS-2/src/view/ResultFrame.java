@@ -31,7 +31,7 @@ public class ResultFrame extends JFrame{
     }
 
 	private void initComponents() {
-		TableComponent tc = new TableComponent(ctr, studentData);
+		TableComponent tc = new TableComponent(studentData);
 		
 		add(tc);
 	}

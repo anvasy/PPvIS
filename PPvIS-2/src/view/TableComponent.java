@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,19 +28,17 @@ public class TableComponent extends JPanel {
 	private JTextField numRows;
 	private JLabel itemsNumber;
 	private DataTable dataStud;
-	private Controller ctr;
 	
 	private int counter = 1;
 	private int currentRowNumber = 5;
 	
-	public TableComponent(Controller ctr, ArrayList<Student> data) {
+	public TableComponent(ArrayList<Student> data) {
 		setPreferredSize(new Dimension(530, 500));
 		setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
-		this.ctr = ctr;
 		this.data = data;
 		
-		dataStud = new DataTable(ctr.getData(this.data, counter, 5));
+		dataStud = new DataTable(getPartOfArray(this.data, counter, 5));
 		dataStud.setPreferredSize(new Dimension(520, 25*5));
 		dataStud.resize(new Dimension(520, 25 * 5));
 		
@@ -83,7 +82,7 @@ public class TableComponent extends JPanel {
 					dataStud.setPreferredSize(new Dimension(520, 25*nRows));
 					dataStud.resize(new Dimension(520, 25 * nRows));
 					counter = 1;
-					ctr.updatePage(dataStud, 1, Integer.valueOf(numRows.getText()), data);
+					updatePage(1, Integer.valueOf(numRows.getText()));
 					pagesCount.setText("Страница " + counter + " из " + 
 								(int) Math.ceil(data.size()/Double.valueOf(numRows.getText())));
 				}
@@ -92,7 +91,7 @@ public class TableComponent extends JPanel {
 					dataStud.setPreferredSize(new Dimension(520, 25*currentRowNumber));
 					dataStud.resize(new Dimension(520, 25 * currentRowNumber));
 					counter = 1;
-					ctr.updatePage(dataStud, 1, currentRowNumber, data);
+					updatePage(1, currentRowNumber);
 					pagesCount.setText("Страница " + counter + " из " + 
 								(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 				}
@@ -105,13 +104,12 @@ public class TableComponent extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if(ctr.getDataSize(ctr.getData()) > Integer.valueOf(numRows.getText()) * counter)
+				if(data.size() > Integer.valueOf(numRows.getText()) * counter)
 				{
 					counter++;
 					pagesCount.setText("Страница " + counter + " из " + 
 									(int) Math.ceil(data.size()/Double.valueOf(numRows.getText())));
-					dataStud.removeData();
-					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()), data);
+					updatePage(counter, Integer.valueOf(numRows.getText()));
 					dataStud.setPreferredSize(new Dimension(520, 25*Integer.valueOf(numRows.getText())));
 					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
 				} 
@@ -129,8 +127,7 @@ public class TableComponent extends JPanel {
 					counter--;
 					pagesCount.setText("Страница" + counter + " из " + 
 									(int) Math.ceil(data.size()/Double.valueOf(numRows.getText())));
-					dataStud.removeData();
-					ctr.updatePage(dataStud, counter, Integer.valueOf(numRows.getText()), data);	
+					updatePage(counter, Integer.valueOf(numRows.getText()));	
 					dataStud.setPreferredSize(new Dimension(520, 25*Integer.valueOf(numRows.getText())));
 					dataStud.resize(new Dimension(520, 25 * Integer.valueOf(numRows.getText())));
 				}
@@ -147,12 +144,13 @@ public class TableComponent extends JPanel {
 				dataStud.setPreferredSize(new Dimension(520, 25*currentRowNumber));
 				dataStud.resize(new Dimension(520, 25 * currentRowNumber));
 				counter = 1;
-				dataStud.removeData();
-				ctr.updatePage(dataStud, 1, currentRowNumber, data);
+				updatePage(1, currentRowNumber);
 				pagesCount.setText("Страница 1 из " + 
 							(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 			}
 		});
+		
+		
 		
 		toLastPage.addActionListener(new ActionListener() {
 
@@ -160,8 +158,7 @@ public class TableComponent extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				counter = (int) Math.ceil(data.size()/Double.valueOf(currentRowNumber));
-				dataStud.removeData();
-				ctr.updatePage(dataStud, counter, currentRowNumber, data);
+				updatePage(counter, currentRowNumber);
 				pagesCount.setText("Страница " + counter + " из " + 
 						(int) Math.ceil(data.size()/Double.valueOf(currentRowNumber)));
 			}
@@ -181,5 +178,38 @@ public class TableComponent extends JPanel {
 	
 	public void newData(ArrayList<Student> data) {
 		this.data = data;
+	}
+	
+	public void updatePage(int counter, int numRows) {
+		dataStud.removeData();
+		ArrayList<Student> newData = new ArrayList();
+		newData = getPartOfArray(data, counter, numRows);
+		for(int row = 0; row < newData.size(); row++) {
+			Vector v = new Vector();
+            v = newData.get(row).returnVec();
+			for(int el = 0; el < dataStud.getColumnCount(); el++) {
+				dataStud.setValueAt(v.get(el), row, el);
+			}
+		}
+		updateElementsNumber();
+	}
+	
+	public ArrayList<Student> getPartOfArray(ArrayList<Student> stud, int counter, int numRows) {
+
+		if(numRows >= stud.size())
+			return stud;
+		
+		ArrayList<Student> result = new ArrayList<Student>();
+		int endOfSubList = 0;
+		if(numRows * (counter - 1) + numRows > stud.size())
+			endOfSubList = stud.size();
+		else
+			endOfSubList = numRows * (counter - 1) + numRows;
+		
+		for(int el = numRows * (counter - 1); el < endOfSubList; el++)
+		{
+			result.add(stud.get(el));
+		}
+		return result;
 	}
 }

@@ -17,39 +17,51 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import controller.Controller;
+import controller.DeleteStrategy;
+import controller.SearchNameAndDayStrategy;
+import controller.SearchStrategy;
+import controller.Strategy;
+import controller.StrategyChooser;
+import model.ComparableObject;
 
 public class SearchFrame extends JFrame {
 	private JTextField name;
 	private JTextField surname;
-	private JTextField fatherName;
+	private JTextField fatherName;			
 	private JTextField yearStart;
-	private JTextField yearEnd;
-	private JTextField dayBirth;
-	private JTextField yearStartEnroll;
+	private JTextField yearEnd;		
+	private JTextField dayBirth;	
+	private JTextField yearStartEnroll;	
 	private JTextField yearEndEnroll;
 	private JTextField yearStartGrade;
 	private JTextField yearEndGrade;
 	private JTextField dayBirth1;
 	private JTextField monthBirth; 
 	private JTextField dayBirth0;
-	
+	private MainFrame mf;
 	private JButton search1;
 	private JButton search2;
 	private JButton search3;
 	private JButton search4;
-	
+	private StrategyChooser sc;
+	private Strategy str1;
+	private Strategy str2;
+	private Strategy str3;
+	private Strategy str4;
 	private Controller ctr;
-	
-	boolean ifDelete;
-	
-	public SearchFrame(Controller c, boolean ifDelete) {
+
+	public SearchFrame(Controller c, MainFrame mf, Strategy str1, Strategy str2, Strategy str3, Strategy str4) {
 		ctr = c;
-		this.ifDelete = ifDelete;
-		
-		if(ifDelete)
-         setTitle("Удалить");
-		else
-			setTitle("Найти");
+		this.str1 = str1;
+		this.str2 = str2;
+		this.str3 = str3;
+		this.str4 = str4;
+		this.mf = mf;
+		makeFrame();
+    }
+	
+	private void makeFrame() {
+		setTitle(" ");
 		
         setSize(340, 700);
         setLocationRelativeTo(null); 
@@ -60,7 +72,7 @@ public class SearchFrame extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));  
         initComponents();
         action();
-    }
+	}
 	
 	private void initComponents() {
 		JPanel container = new JPanel();
@@ -95,10 +107,7 @@ public class SearchFrame extends JFrame {
 		name = new JTextField(20);
 		surname = new JTextField(20);
 		fatherName = new JTextField(20);
-		if(ifDelete)
-			search1 = new JButton("Удалить");
-		else
-			search1 = new JButton("Найти");
+		search1 = new JButton("Ок");
 		search1.setPreferredSize(new Dimension(300, 30));
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -121,10 +130,7 @@ public class SearchFrame extends JFrame {
 		yearStart = new JTextField(5);
 		JLabel lineL = new JLabel(" — ");
 		yearEnd = new JTextField(5);
-		if(ifDelete)
-			search2 = new JButton("Удалить");
-		else
-			search2 = new JButton("Найти");;
+		search2 = new JButton("Ок");
 		search2.setPreferredSize(new Dimension(300, 30));
 		JLabel birthDayDateL = new JLabel("День рождения: ");
 		dayBirth = new JTextField(3);
@@ -141,10 +147,7 @@ public class SearchFrame extends JFrame {
 		dayBirth1 = new JTextField(3);
 		JLabel birthMonthDateL = new JLabel("Месяц рождения: ");
 		monthBirth = new JTextField(3);
-		if(ifDelete)
-			search3 = new JButton("Удалить");
-		else
-			search3 = new JButton("Найти");
+		search3 = new JButton("Ок");
 		search3.setPreferredSize(new Dimension(300, 30));
 		
 		thirdOptPanel.add(birthDayDate);
@@ -161,10 +164,7 @@ public class SearchFrame extends JFrame {
 		yearStartGrade = new JTextField(5);
 		JLabel lineL2 = new JLabel(" — ");
 		yearEndGrade = new JTextField(5);
-		if(ifDelete)
-			search4 = new JButton("Удалить");
-		else
-			search4 = new JButton("Найти");
+		search4 = new JButton("Ок");
 		search4.setPreferredSize(new Dimension(300, 30));
 		
 		fourthOptPanel.add(startYearDateL);
@@ -181,20 +181,24 @@ public class SearchFrame extends JFrame {
 	}
 	
 	private void action() {
+		sc = new StrategyChooser();
+		
 		search1.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					int check = ctr.getData(name.getText(), surname.getText(), 
-						fatherName.getText(), Integer.valueOf(dayBirth0.getText()), ifDelete);
-					if(check >= 0)
-						JOptionPane.showMessageDialog(null, "Были удалены " + check 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-					if(check == -1)
-						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-								"Внимание!", JOptionPane.INFORMATION_MESSAGE);	
+					if(name.getText().isEmpty() || surname.getText().isEmpty() || 
+							fatherName.getText().isEmpty() || dayBirth0.getText().isEmpty())
+						JOptionPane.showMessageDialog(null, "Заполните все поля.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
+					else {
+						ComparableObject obj = new ComparableObject(name.getText(), surname.getText(), 
+								fatherName.getText(), Integer.valueOf(dayBirth0.getText()));
+										
+						int check = ctr.useStrategy(obj, str1);
+						throwAlert(check);
+					}
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -208,14 +212,12 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					int check = ctr.getData(Integer.valueOf(yearStart.getText()), 
-							Integer.valueOf(yearEnd.getText()), Integer.valueOf(dayBirth.getText()), ifDelete);
-					if(check >= 0)
-						JOptionPane.showMessageDialog(null, "Были удалены " + check 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-					if(check == -1)
-						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-								"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					ComparableObject obj = new ComparableObject(Integer.valueOf(yearStart.getText()), 
+							Integer.valueOf(yearEnd.getText()), Integer.valueOf(dayBirth.getText()));
+					
+					int check = ctr.useStrategy(obj, str2);
+					throwAlert(check);
+					
 				} catch(Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -229,14 +231,13 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					int check = ctr.getData(Integer.valueOf(dayBirth1.getText()), 
-							Integer.valueOf(monthBirth.getText()), ifDelete);
-					if(check >= 0)
-						JOptionPane.showMessageDialog(null, "Были удалены " + check 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-					if(check == -1)
-						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-								"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					
+					ComparableObject obj = new ComparableObject(Integer.valueOf(dayBirth1.getText()), 
+							Integer.valueOf(monthBirth.getText()));
+					
+					int check = ctr.useStrategy(obj, str3);
+					throwAlert(check);
+					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -250,19 +251,28 @@ public class SearchFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					int check = ctr.getData(Integer.valueOf(yearStartEnroll.getText()), Integer.valueOf(yearEndEnroll.getText()), 
-							Integer.valueOf(yearStartGrade.getText()), Integer.valueOf(yearEndGrade.getText()), ifDelete);
-					if(check >= 0)
-						JOptionPane.showMessageDialog(null, "Были удалены " + check 
-						+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
-					if(check == -1)
-						JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
-								"Внимание!", JOptionPane.INFORMATION_MESSAGE);
+					ComparableObject obj = new ComparableObject(Integer.valueOf(yearStartEnroll.getText()), Integer.valueOf(yearEndEnroll.getText()), 
+							Integer.valueOf(yearStartGrade.getText()), Integer.valueOf(yearEndGrade.getText()));
+					
+					int check = ctr.useStrategy(obj, str4);
+					throwAlert(check);
+					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Что-то не так.", "Ошибка!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
     		
     	});
+	}
+	
+	private void throwAlert(int check) {
+		if(check >= 0) {
+			JOptionPane.showMessageDialog(null, "Были удалены " + check 
+			+ " записей", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
+			mf.updateTable();
+		}
+		if(check == -1)
+			JOptionPane.showMessageDialog(null, "По вашему запросу ничего не найдено.", 
+					"Внимание!", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

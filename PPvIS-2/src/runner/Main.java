@@ -19,11 +19,13 @@ public class Main {
 		new MainFrame(ctr);
 	}
 	
+////////////////////////////
+	
 	private static ArrayList<Student> generateData() {
 		ArrayList<Student> data = new ArrayList();
 		
 		for (int el = 0; el < 50; el++) {
-			data.add(new Student(genString(), genString(), genString(), genData(), genData(), genData()));
+			data.add(new Student(genString(), genString(), genString(), genDate(), genDate(), genDate()));
 		}
 		
 		return data;
@@ -38,7 +40,7 @@ public class Main {
         return name.toString();
 	}
 	
-	private static Calendar genData() {
+	private static Calendar genDate() {
 		Calendar date = Calendar.getInstance();
 		Random r = new Random();
 		int day = r.nextInt((31 - 1) + 1) + 1;
