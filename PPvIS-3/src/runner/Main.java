@@ -1,7 +1,5 @@
 package runner;
 
-import javax.swing.SwingUtilities;
-
 import ui.MainFrame;
 
 public class Main {
