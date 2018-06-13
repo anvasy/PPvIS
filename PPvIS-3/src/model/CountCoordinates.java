@@ -18,7 +18,6 @@ public class CountCoordinates implements Runnable{
 		this.controller = controller;
 	}
 	
-
     public void start() {
         isAlive = true;
         iteration = 2;
@@ -36,6 +35,14 @@ public class CountCoordinates implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public ChartPoint countPoint(double x, int n) {
+		double y = 0.0;
+		for (int k = 0; k <= n; k++) {
+			y += Math.pow(-1, k) * Math.pow(x, 2 * k) / factorial(k);
+		}
+		return new ChartPoint(x, y);
 	}
 	
 	public ArrayList<ChartPoint> countCoordinates(int n) {

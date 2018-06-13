@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import controller.Controller;
@@ -26,14 +27,15 @@ public class MainFrame extends JFrame {
 	private JButton drawChart;
 	private JTextField nField;
 	private Controller ctr;
-	private ChartComponent mainPanel;
+	private ChartPanel mainPanel;
+	private boolean isChart = false;
 
 	public MainFrame() {
 		setTitle("График функции");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		setSize(new Dimension(420, 520));
+		setSize(new Dimension(430, 520));
 		
 		//setResizable(false);
 
@@ -51,17 +53,12 @@ public class MainFrame extends JFrame {
 		pan.add(nField);
 		pan.add(drawChart);
 		add(pan);
-		resize(new Dimension(400, 521));
 
 		action();
 	}
 
 	private void createAndShowGui() {
 		
-		JPanel pan = new JPanel();
-		pan.setPreferredSize(new Dimension(400, 400));
-		pan.setLayout(new FlowLayout(FlowLayout.CENTER));
-
 		List<ChartPoint> scores = new ArrayList<>();
 		try {
 			scores = ctr.countCoordinates(Integer.valueOf(nField.getText()));
@@ -69,20 +66,22 @@ public class MainFrame extends JFrame {
 			JOptionPane.showMessageDialog(this, "Неверное число.", "Внимание!", JOptionPane.INFORMATION_MESSAGE);
 		}
 
-		if (mainPanel != null) {
-			pan.remove(mainPanel);
+		if (isChart) {
+			remove(mainPanel);
 			mainPanel = null;
-			System.out.println("here");
+			mainPanel = new ChartPanel(scores);
+			mainPanel.setPreferredSize(new Dimension(300, 300));
+			add(mainPanel);
+			
 		} else {
-			mainPanel = new ChartComponent(scores);
-			mainPanel.setPreferredSize(new Dimension(800, 600));
-
-			pan.add(mainPanel);
+			mainPanel = new ChartPanel(scores);
+			mainPanel.setPreferredSize(new Dimension(300, 300));
+			isChart = true;
+			add(mainPanel);
 		}
 
-		add(pan);
-		resize(new Dimension(400, 520));
 
+		revalidate();
 		repaint();
 		
 	}
@@ -96,7 +95,7 @@ public class MainFrame extends JFrame {
 
 				Thread chart = new Thread(new Runnable() {
 					public void run() {
-						createAndShowGui();
+						createAndShowGui();;
 					}
 				});
 

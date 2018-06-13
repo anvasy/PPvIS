@@ -59,8 +59,6 @@ public class Controller {
         };
 	}
 	
-	
-	
 	/////////////////////////////////
 	public ArrayList<ChartPoint> countCoordinates(int n) {
 		ArrayList<ChartPoint> coords = new ArrayList<>();

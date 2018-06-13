@@ -11,9 +11,6 @@ public class Coordinates {
 
     public int addPoint(ChartPoint point) {
         synchronized (coords) {
-            /*if(graphic.size()==0){
-                return -1;
-            }*/
         	coords.add(point);
             return coords.size() - 1;
         }

@@ -12,6 +12,7 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -22,6 +23,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import model.ChartPoint;
 
@@ -44,20 +46,16 @@ public class ChartComponent extends JPanel implements KeyListener {
 	public static final int WHEEL_COUNT = 3;
 	public static final double STEP_SCALE = 0.1;
 	public static final double MIN_SCALE = 0.2;
-	private double scale = 1;
-	private JScrollBar scBarVert;
-	private JScrollBar scBarHor;
-	double xScale;
-	double yScale;
+	private ChartPanel cp;
+	private double scale = 2;
 
-	public ChartComponent(List<ChartPoint> scores) {
+	public ChartComponent(List<ChartPoint> scores, ChartPanel cp) {
 		this.scores = scores;
+		this.cp = cp;
 		addKeyListener(this);
 		setPreferredSize(new Dimension(300, 300));
-		scaleSize = new JLabel("Масштаб 1 : 1");
-		add(scaleSize);
 		action();
-	}
+	}	
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -70,8 +68,8 @@ public class ChartComponent extends JPanel implements KeyListener {
 
 		List<Point> graphPoints = new ArrayList<>();
 		for (int i = 0; i < scores.size(); i++) {
-			int x1 = (int) (scores.get(i).getX() * xScale + padding + labelPadding);
-			int y1 = (int) ((getMaxScore() - scores.get(i).getY()) * yScale + padding);
+			int x1 = (int) Math.ceil(scores.get(i).getX() * xScale + padding + labelPadding);
+			int y1 = (int) Math.ceil((getMaxScore() - scores.get(i).getY()) * yScale + padding);
 			graphPoints.add(new Point(x1, y1));
 		}
 
@@ -137,40 +135,44 @@ public class ChartComponent extends JPanel implements KeyListener {
 		g2.setStroke(oldStroke);
 		g2.setColor(pointColor);
 		for (int i = 0; i < graphPoints.size(); i++) {
-			int x = (int) graphPoints.get(i).getX() - pointWidth / 2;
-			int y = (int) graphPoints.get(i).getY() - pointWidth / 2 ;
+			int x = (int) Math.ceil(graphPoints.get(i).getX() - pointWidth / 2);
+			int y = (int) Math.ceil(graphPoints.get(i).getY() - pointWidth / 2) ;
 			int ovalW = pointWidth;
 			int ovalH = pointWidth;
 			g2.fillOval(x, y, ovalW, ovalH);
 		}
 		setFocusable(true);
 	}
+	
+	public double getScale() {
+		return scale;
+	}
 
 	private void action() {
-		this.addMouseWheelListener(new MouseWheelListener() {
-			@Override
-			public void mouseWheelMoved(MouseWheelEvent mouseEvent) {
-				// TODO Auto-generated method stub
-				System.out.println(xScale + "--" + yScale);
-				resize(new Dimension((int)xScale * 2, (int)yScale * 2));
-				System.out.println(xScale + "--" + yScale);
-				if (ctrlIsPress) {
-					if (mouseEvent.getClickCount() == WHEEL_COUNT) {
-						scale += STEP_SCALE;
-						//while (updateSize());
-					} else if (scale - STEP_SCALE > MIN_SCALE) {
-						scale -= STEP_SCALE;
-						//while (updateSize());
-					}
-					repaint();
-				}
-			}
-		});
+		addMouseWheelListener(new MouseAdapter() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+            	if(scale >= 2 && scale <= 8) {
+	                double delta = 0.05f * e.getPreciseWheelRotation();
+	                scale += delta;
+	                if(scale < 2)
+	                	scale = 2;
+	                if(scale > 8)
+	                	scale = 8;    
+            	}
+            	cp.updateScaleSize("Масштаб " + String.format("%.2f", scale/2) + " : 1");
+            	revalidate();
+                repaint();
+            }
+        });
 	}
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(width, heigth);
+		Dimension size = new Dimension(200, 200);
+        size.width = (int) Math.round(size.width * scale);
+        size.height = (int) Math.round(size.height * scale);
+        return size;
 	}
 
 	private double getMinScore() {
@@ -226,39 +228,4 @@ public class ChartComponent extends JPanel implements KeyListener {
 		super.setFocusable(b);
 	}
 	
-   /*private boolean updateSize() {
-        boolean isUpdateSize = false;
-        if (pointMaxHeight == null || pointList.size() == 0) return false;
-        int x = rectangle.width - (int) (pointList.get(pointList.size() - 1).getNumberElement() * STEP_GRID * scale + OFFSET_START_GRAPHIC);
-        int y = rectangle.height - (int) ((pointMaxHeight.getTime() * STEP_GRID * scale) + OFFSET_START_GRAPHIC);
-        boolean condition_increment_size_width = x - 200 * scale < 0;
-        if (condition_increment_size_width) {
-            rectangle.width += (int) ((STEP_INCREMENT_RESIZE - x) * scale);
-            isUpdateSize = true;
-        } else {
-            boolean condition_reduction_size_width = x > (500 * scale) && rectangle.width != getClientArea().width;
-            if (condition_reduction_size_width) {
-                rectangle.width -= (int) (x - STEP_REDUCTION_RESIZE * scale);
-                if (rectangle.width < getClientArea().width)
-                    rectangle.width = getClientArea().width;
-                isUpdateSize = true;
-            }
-        }
-        boolean condition_increment_size_height = y - 200 * scale < 0;
-        if (condition_increment_size_height) {
-            rectangle.height += (int) ((STEP_INCREMENT_RESIZE - y) * scale);
-            isUpdateSize = true;
-        } else {
-            boolean condition_reduction_size_height = y > (500 * scale) && rectangle.height != getClientArea().height;
-            if (condition_reduction_size_height) {
-                rectangle.height -= (int) (y - STEP_REDUCTION_RESIZE * scale);
-                if (rectangle.height < getClientArea().height) {
-                    rectangle.height = getClientArea().height;
-                }
-                isUpdateSize = true;
-            }
-        }
-        resizeEvent();
-        return isUpdateSize;
-	}*/
 }
