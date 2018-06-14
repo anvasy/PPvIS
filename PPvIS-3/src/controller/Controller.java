@@ -12,13 +12,11 @@ import model.ChartPoint;
 public class Controller {
 
     private MainFrame mainFrame;
-    private Coordinates coords;
     private Thread thread;
 	double h = 0.01;
     private CountCoordinates countCoords;
 
     public Controller(MainFrame mainFrame) {
-        coords = new Coordinates();
         this.mainFrame = mainFrame;
         this.countCoords = new CountCoordinates(this);
     }
@@ -27,7 +25,7 @@ public class Controller {
         if (thread != null) {
             countCoords.shutdown();
             while (thread.isAlive()) ;
-            coords.removeAll();
+            countCoords.clearCoords();
             mainFrame.removeAllData();
         }
         countCoords.start(n);
@@ -36,8 +34,8 @@ public class Controller {
     }
 
     public ChartPoint getData(int index) {
-        List<ChartPoint> data = coords.getGraphic();
-        if (index!=-1)
+        List<ChartPoint> data = countCoords.getCoords();
+        if (index != -1)
             return data.get(index);
         return null;
     }
@@ -53,13 +51,12 @@ public class Controller {
         new Runnable() {
             @Override
             public void run() {
-                int index = coords.addPoint(point);
+                int index = countCoords.addPoint(point);
                 mainFrame.updateData(index);
             }
         };
 	}
 	
-	/////////////////////////////////
 	public ArrayList<ChartPoint> countCoordinates(int n) {
 		ArrayList<ChartPoint> coords = new ArrayList<>();
 		double x = 0.0;

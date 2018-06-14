@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.text.DecimalFormat;
@@ -30,7 +31,6 @@ import model.ChartPoint;
 public class ChartComponent extends JPanel implements KeyListener {
 
 	private JLabel scaleSize;
-
 	private int width = 400;
 	private int heigth = 400;
 	private int padding = 25;
@@ -46,12 +46,12 @@ public class ChartComponent extends JPanel implements KeyListener {
 	public static final int WHEEL_COUNT = 3;
 	public static final double STEP_SCALE = 0.1;
 	public static final double MIN_SCALE = 0.2;
-	private ChartPanel cp;
 	private double scale = 2;
 
-	public ChartComponent(List<ChartPoint> scores, ChartPanel cp) {
+	public ChartComponent(List<ChartPoint> scores) {
 		this.scores = scores;
-		this.cp = cp;
+		scaleSize = new JLabel("Масштаб 1,00 : 1");	
+		add(scaleSize);
 		addKeyListener(this);
 		setPreferredSize(new Dimension(300, 300));
 		action();
@@ -124,7 +124,8 @@ public class ChartComponent extends JPanel implements KeyListener {
 		Stroke oldStroke = g2.getStroke();
 		g2.setColor(lineColor);
 		g2.setStroke(GRAPH_STROKE);
-		for (int i = 0; i < graphPoints.size() - 1; i++) {
+		
+		/*for (int i = 0; i < graphPoints.size() - 1; i++) {
 			int x1 = (int) (graphPoints.get(i).getX());
 			int y1 = (int) graphPoints.get(i).getY();
 			int x2 = (int) graphPoints.get(i + 1).getX();
@@ -140,7 +141,8 @@ public class ChartComponent extends JPanel implements KeyListener {
 			int ovalW = pointWidth;
 			int ovalH = pointWidth;
 			g2.fillOval(x, y, ovalW, ovalH);
-		}
+		}*/
+		
 		setFocusable(true);
 	}
 	
@@ -160,7 +162,7 @@ public class ChartComponent extends JPanel implements KeyListener {
 	                if(scale > 8)
 	                	scale = 8;    
             	}
-            	cp.updateScaleSize("Масштаб " + String.format("%.2f", scale/2) + " : 1");
+            	scaleSize.setText("Масштаб " + String.format("%.2f", scale/2) + " : 1");
             	revalidate();
                 repaint();
             }
@@ -226,6 +228,10 @@ public class ChartComponent extends JPanel implements KeyListener {
 	@Override
 	public void setFocusable(boolean b) {
 		super.setFocusable(b);
+	}
+	
+	public void updateChart() {
+		
 	}
 	
 }

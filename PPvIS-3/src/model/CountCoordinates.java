@@ -8,14 +8,15 @@ public class CountCoordinates implements Runnable{
 	 
 	double h = 0.01;
 	private Controller controller;
+	private Coordinates coords;
     private int numberTest;
     private boolean isAlive = false;
     private int numberIteration;
     private int iteration = 2;
 	
 	public CountCoordinates(Controller controller) {
-		// TODO Auto-generated constructor stub
 		this.controller = controller;
+		coords = new Coordinates();;
 	}
 	
     public void start() {
@@ -29,12 +30,23 @@ public class CountCoordinates implements Runnable{
 
     public void shutdown() {
         isAlive = false;
-}
+    }
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public void clearCoords() {
+		coords.removeAll();
+	}
+	
+	public ArrayList<ChartPoint> getCoords() {
+		return coords.getGraphic();
+	}
+	
+	public int addPoint(ChartPoint point) {
+		return coords.addPoint(point);
 	}
 	
 	public ChartPoint countPoint(double x, int n) {
