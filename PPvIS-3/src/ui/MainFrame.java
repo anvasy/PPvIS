@@ -4,9 +4,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,13 +16,12 @@ import javax.swing.JTextField;
 import controller.Controller;
 import controller.CustomMouseListener;
 
-public class MainFrame extends JFrame implements KeyListener {
+public class MainFrame extends JFrame {
 
 	private JButton drawChart;
 	private JTextField nField;
 	private Controller ctr;
 	private ChartComponent mainPanel;
-	private boolean isChart = false;
 	private CustomMouseListener mListener;
 	private CoordsTable table;
 
@@ -35,9 +31,8 @@ public class MainFrame extends JFrame implements KeyListener {
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setSize(new Dimension(430, 620));
-
+		setLocationRelativeTo(null);
 		setResizable(false);
-		addKeyListener(this);
 
 		ctr = new Controller(this);
 
@@ -47,8 +42,9 @@ public class MainFrame extends JFrame implements KeyListener {
 		drawChart = new JButton("Построить график");
 		JLabel nLabel = new JLabel("n: ");
 		nField = new JTextField(7);
-		nField.setText("1");
+		nField.setText("5");
 		table = new CoordsTable(ctr);
+		table.getPane().setPreferredSize(new Dimension(300, 40));
 
 		pan.add(nLabel);
 		pan.add(nField);
@@ -56,12 +52,12 @@ public class MainFrame extends JFrame implements KeyListener {
 
 		add(pan);
 
-		mainPanel = new ChartComponent(ctr);
+		mainPanel = new ChartComponent(ctr.getCoords());
 		mainPanel.setPreferredSize(new Dimension(300, 300));
 		JScrollPane scrolls = new JScrollPane(mainPanel);
 		add(scrolls);
 
-		mListener = new CustomMouseListener(scrolls, mainPanel);
+		mListener = new CustomMouseListener(scrolls);
 		mainPanel.addMouseMotionListener(mListener);
 
 		add(table.getPane());
@@ -86,10 +82,11 @@ public class MainFrame extends JFrame implements KeyListener {
 							JOptionPane.showMessageDialog(MainFrame.this, "Неверное число.", "Внимание!",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
-						updateData();
-						drawChart.setFocusable(false);
+						
+						drawChart.setFocusable(false); 
 						table.getPane().setFocusable(false);
 						MainFrame.this.setFocusable(true);
+						updateData();
 					}
 				});
 				chart.start();
@@ -104,34 +101,14 @@ public class MainFrame extends JFrame implements KeyListener {
 		generateTable();
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		int key = e.getKeyCode();
-
-		if (key == KeyEvent.VK_CONTROL) {
-			mainPanel.ctrlIsPressed = true;
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("here");
-		int key = e.getKeyCode();
-
-		if (key == KeyEvent.VK_CONTROL) {
-			mainPanel.ctrlIsPressed = false;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) { }
-
 	public void generateTable() {
 		table.addCoord();
 		revalidate();
 		repaint();
+	}
+	
+	public void buttonEnable(boolean ifEn) {
+		drawChart.setEnabled(ifEn);
 	}
 
 }

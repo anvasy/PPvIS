@@ -1,9 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Coordinates {
-	private ArrayList<ChartPoint> coords;
+	private List<ChartPoint> coords;
 
     public Coordinates() {
     	coords = new ArrayList<>();
@@ -22,14 +23,8 @@ public class Coordinates {
         }
     }
     
-    public ArrayList<ChartPoint> getData() {
+    public List<ChartPoint> getData() {
         return coords;
-    }
-
-    public ArrayList<ChartPoint> getGraphic() {
-        synchronized (coords) {
-            return new ArrayList<>(coords);
-        }
     }
 
     public int getSize() {

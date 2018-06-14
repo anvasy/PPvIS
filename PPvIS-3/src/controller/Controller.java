@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ChartPoint;
-import model.Coordinates;
 import model.CountCoordinates;
 import ui.MainFrame;
-import model.ChartPoint;
 
 public class Controller {
 
     private MainFrame mainFrame;
-    private Thread thread;
 	double h = 0.01;	
     private CountCoordinates countCoords;
 
     public Controller(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.countCoords = new CountCoordinates(this);
+        this.countCoords = new CountCoordinates();
     }
     
     public void countPoints(int n) {
@@ -31,12 +28,13 @@ public class Controller {
 				// TODO Auto-generated method stub
 				double x = 0.0;
 				double y = 0.0;
+				mainFrame.buttonEnable(false);
 				while (x < 0.51) {
 					y = 0.0;
 					for (int k = 0; k <= n; k++) {
 						y += Math.pow(-1, k) * Math.pow(x, 2 * k) / factorial(k);
 					}
-					int pos = countCoords.addPoint(new ChartPoint(x, y));
+					countCoords.addPoint(new ChartPoint(x, y));
 					x += h;
 					mainFrame.updateData();
 					try{
@@ -44,6 +42,7 @@ public class Controller {
 					} catch(InterruptedException e){}
 				}
 				mainFrame.setFocusable(true);
+				mainFrame.buttonEnable(true);
 			}
     		
     	});
@@ -54,7 +53,7 @@ public class Controller {
     	return countCoords.getCoords().size();
     }
     
-    public ArrayList<ChartPoint> getCoords() {
+    public List<ChartPoint> getCoords() {
     	return countCoords.getCoords();
     }
     
@@ -66,29 +65,14 @@ public class Controller {
         new Runnable() {
             @Override
             public void run() {
-                int index = countCoords.addPoint(point);
+                countCoords.addPoint(point);
                 mainFrame.updateData();
             }
         };
 	}
 	
-	public ArrayList<ChartPoint> countCoordinates(int n) {
-		double x = 0.0;
-		double y;
-		while (x <= 0.5) {
-			y = 0.0;
-			for (int k = 0; k <= n; k++) {
-				double res = Math.pow(-1, k) * Math.pow(x, 2 * k)/factorial(k);
-				y += res;
-			}
-			countCoords.addPoint(new ChartPoint(x, y));
-			x += h;
-		}
-		return countCoords.getCoords();
-	}
-	
-	private int factorial(int number) {
-		int result = 1;
+	private double factorial(int number) {
+		double result = 1;
 		for (int factor = 2; factor <= number; factor++) {
 			result *= factor;
 		}

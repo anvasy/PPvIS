@@ -1,10 +1,8 @@
 package ui;
 
 import java.awt.Dimension;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import controller.Controller;
 
 public class CoordsTable {
@@ -19,10 +17,11 @@ public class CoordsTable {
     }
 
 	public void addCoord() {
-		tModel.deleteAll();
-
-		for (int index = 0; index < controller.getCoordsSize(); index++) {
-			tModel.add(controller.getElement(index));
+		synchronized (controller.getCoords()) {
+			tModel.deleteAll();
+			for (int index = 0; index < controller.getCoordsSize(); index++) {
+				tModel.add(controller.getElement(index));
+			}
 		}
 	}
 

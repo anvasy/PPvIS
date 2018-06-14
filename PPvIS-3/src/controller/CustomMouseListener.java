@@ -5,16 +5,12 @@ import java.awt.event.MouseEvent;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-import ui.ChartComponent; 
-
 public class CustomMouseListener extends MouseAdapter {
 	private int prevX, prevY;
 	private JScrollPane scrolls;
-	private ChartComponent cp;
 
-	public CustomMouseListener(JScrollPane scrolls, ChartComponent cp) {
+	public CustomMouseListener(JScrollPane scrolls) {
 		this.scrolls = scrolls;
-		this.cp = cp;
 	}
 	
 	@Override

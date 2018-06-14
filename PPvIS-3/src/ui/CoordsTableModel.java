@@ -3,9 +3,7 @@ package ui;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
-
 import model.ChartPoint;
-import model.Coordinates;
 
 public class CoordsTableModel extends AbstractTableModel {
     private String[] tableHeader = {"X", "Y"};
@@ -43,13 +41,17 @@ public class CoordsTableModel extends AbstractTableModel {
     }
 
     public void add(ChartPoint point){
-        list.add(point);
-        fireTableDataChanged();
+    	synchronized (list) {
+	        list.add(point);
+	        fireTableDataChanged();
+    	}
     }
 
     public void deleteAll()
     {
-        list.clear();
-        fireTableDataChanged();
+    	synchronized (list) {
+	        list.clear();
+	        fireTableDataChanged();
+    	}
     }
 }
