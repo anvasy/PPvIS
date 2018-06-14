@@ -11,17 +11,14 @@ public class CountCoordinates implements Runnable{
 	private Coordinates coords;
     private int numberTest;
     private boolean isAlive = false;
-    private int numberIteration;
-    private int iteration = 2;
-	
+
 	public CountCoordinates(Controller controller) {
 		this.controller = controller;
-		coords = new Coordinates();;
+		coords = new Coordinates();
 	}
 	
     public void start() {
         isAlive = true;
-        iteration = 2;
     }
 
     public void start(int n) {
@@ -42,7 +39,7 @@ public class CountCoordinates implements Runnable{
 	}
 	
 	public ArrayList<ChartPoint> getCoords() {
-		return coords.getGraphic();
+		return coords.getData();
 	}
 	
 	public int addPoint(ChartPoint point) {

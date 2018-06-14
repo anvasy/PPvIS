@@ -21,6 +21,10 @@ public class Coordinates {
         	coords.clear();
         }
     }
+    
+    public ArrayList<ChartPoint> getData() {
+        return coords;
+    }
 
     public ArrayList<ChartPoint> getGraphic() {
         synchronized (coords) {
@@ -32,5 +36,5 @@ public class Coordinates {
         synchronized (coords) {
             return coords.size();
         }
-}
+    }
 }

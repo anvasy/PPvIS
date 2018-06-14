@@ -32,7 +32,7 @@ public class ChartPanel extends JPanel {
 		setLayout(layout);
 		scaleSize = new JLabel("Масштаб 1,00 : 1");	
 		
-		chartComponent = new ChartComponent(scores);
+		//chartComponent = new ChartComponent(scores);
 		layout.putConstraint(SpringLayout.NORTH, this,
                 -5,
                 SpringLayout.NORTH, chartComponent);

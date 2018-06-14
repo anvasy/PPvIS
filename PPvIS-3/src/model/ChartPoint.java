@@ -16,5 +16,13 @@ public class ChartPoint {
 	public double getY() {
 		return y;
 	}
+	
+	public Object getValue(int index){
+        switch (index){
+            case 0: return getX();
+            case 1: return getY();
+        }
+        return null;
+    }
 
 }

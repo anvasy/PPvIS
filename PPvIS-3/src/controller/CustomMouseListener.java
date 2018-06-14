@@ -17,10 +17,6 @@ public class CustomMouseListener extends MouseAdapter {
 		this.cp = cp;
 	}
 	
-	public CustomMouseListener() {
-		//this.scrolls = scrolls;
-	}
-
 	@Override
 	public void mouseDragged(MouseEvent e){
 		super.mouseDragged(e);
